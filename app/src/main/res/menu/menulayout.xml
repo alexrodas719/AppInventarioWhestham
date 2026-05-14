@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/outline_box_24"
+        android:title="Inventario" />
+    <item
+        android:icon="@drawable/outline_attach_money_24"
+        android:title="Reportes" />
+    <item
+        android:icon="@drawable/outline_encrypted_24"
+        android:title="Configuracion" />
+</menu>

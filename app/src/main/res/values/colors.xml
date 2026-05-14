@@ -2,8 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="azul">#03A9F4</color>
-    <color name="Indigo">#01012F</color>
-    <color name="Indigo_Dark">#01012F</color>
+    <color name="azul">#0091EA</color>
+    <color name="Indigo">#01011F</color>
     <color name="gris">#BDBDBD</color>
 </resources>
