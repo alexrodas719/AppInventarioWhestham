@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">InventarioWH</string>
+    <string name="btn_retroceder">Retroceder</string>
+    <string name="hint_buscar">Buscar Productos&#8230;</string>
 </resources>
