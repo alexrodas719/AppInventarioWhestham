@@ -2,10 +2,10 @@ package upn.edu.pe.inventariowh.AccesoDatos;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +22,21 @@ public class DAOProducto {
 
     public DAOProducto(Activity contexto) {
 
-        this.nombreBD ="WESTHAMDB";
-        this.version = 1;
+        this.nombreBD = "WESTHAMDB";
+        this.version = 2; // 🔥 IMPORTANTE: fuerza actualización
         this.contexto = contexto;
 
         oHelper = new OpenHelperDB(contexto, nombreBD, null, version);
     }
 
     // =========================
-    // INSERTAR
+    // INSERTAR (CORREGIDO)
     // =========================
     public boolean Insertar(Producto oP) {
 
-        ContentValues oColumna = new ContentValues();
+        SQLiteDatabase db = oHelper.getWritableDatabase();
 
+        ContentValues oColumna = new ContentValues();
         oColumna.put("Nombre", oP.getNombre());
         oColumna.put("Foto", oP.getFoto());
         oColumna.put("SKU", oP.getSku());
@@ -43,18 +44,25 @@ public class DAOProducto {
         oColumna.put("Talla", oP.getTalla());
         oColumna.put("Color", oP.getColor());
         oColumna.put("Stock", oP.getStock());
-        oColumna.put("Precio", oP.getPrecio());
+        oColumna.put("PrecioCompra", oP.getPrecioCompra());
+        oColumna.put("PrecioVenta", oP.getPrecioVenta());
         oColumna.put("Descripcion", oP.getDescripcion());
 
-        SQLiteDatabase db = oHelper.getWritableDatabase();
-
         long fila = db.insert("Producto", null, oColumna);
+
+        if (fila == -1) {
+            Log.e("DB_INSERT", "❌ Error al insertar producto (posible SKU duplicado)");
+            db.close();
+            return false;
+        }
+
+        Log.d("DB_INSERT", "✔ Producto insertado ID: " + fila);
         db.close();
-        return fila > 0;
+        return true;
     }
 
     // =========================
-    // LISTAR TODOS
+    // LISTAR
     // =========================
     public List<Producto> ListarTodos() {
 
@@ -62,19 +70,15 @@ public class DAOProducto {
 
         SQLiteDatabase db = oHelper.getReadableDatabase();
 
-        Cursor oRegistros =
-                db.rawQuery("SELECT * FROM Producto", null);
+        Cursor c = db.rawQuery("SELECT * FROM Producto", null);
 
-        if (oRegistros.moveToFirst()) {
-
+        if (c.moveToFirst()) {
             do {
-
-                lista.add(mapearRegistro(oRegistros));
-
-            } while (oRegistros.moveToNext());
+                lista.add(mapearRegistro(c));
+            } while (c.moveToNext());
         }
 
-        oRegistros.close();
+        c.close();
         db.close();
 
         return lista;
@@ -85,23 +89,23 @@ public class DAOProducto {
     // =========================
     public Producto Buscar(int idProducto) {
 
-        Producto oP = null;
-
         SQLiteDatabase db = oHelper.getReadableDatabase();
 
-        Cursor oRegistros =
-                db.rawQuery("SELECT * FROM Producto WHERE IdProducto=?",
-                        new String[]{String.valueOf(idProducto)});
+        Cursor c = db.rawQuery(
+                "SELECT * FROM Producto WHERE IdProducto=?",
+                new String[]{String.valueOf(idProducto)}
+        );
 
-        if (oRegistros.moveToFirst()) {
+        Producto p = null;
 
-            oP = mapearRegistro(oRegistros);
+        if (c.moveToFirst()) {
+            p = mapearRegistro(c);
         }
 
-        oRegistros.close();
+        c.close();
         db.close();
 
-        return oP;
+        return p;
     }
 
     // =========================
@@ -109,8 +113,9 @@ public class DAOProducto {
     // =========================
     public boolean Actualizar(Producto oP) {
 
-        ContentValues oColumna = new ContentValues();
+        SQLiteDatabase db = oHelper.getWritableDatabase();
 
+        ContentValues oColumna = new ContentValues();
         oColumna.put("Nombre", oP.getNombre());
         oColumna.put("Foto", oP.getFoto());
         oColumna.put("SKU", oP.getSku());
@@ -118,19 +123,18 @@ public class DAOProducto {
         oColumna.put("Talla", oP.getTalla());
         oColumna.put("Color", oP.getColor());
         oColumna.put("Stock", oP.getStock());
-        oColumna.put("Precio", oP.getPrecio());
+        oColumna.put("PrecioCompra", oP.getPrecioCompra());
+        oColumna.put("PrecioVenta", oP.getPrecioVenta());
         oColumna.put("Descripcion", oP.getDescripcion());
 
-        SQLiteDatabase db = oHelper.getWritableDatabase();
-
-        int filas =
-                db.update("Producto",
-                        oColumna,
-                        "IdProducto=?",
-                        new String[]{String.valueOf(oP.getIdProducto())});
+        int filas = db.update(
+                "Producto",
+                oColumna,
+                "IdProducto=?",
+                new String[]{String.valueOf(oP.getIdProducto())}
+        );
 
         db.close();
-
         return filas > 0;
     }
 
@@ -141,41 +145,33 @@ public class DAOProducto {
 
         SQLiteDatabase db = oHelper.getWritableDatabase();
 
-        int filas =
-                db.delete("Producto",
-                        "IdProducto=?",
-                        new String[]{String.valueOf(idProducto)});
+        int filas = db.delete(
+                "Producto",
+                "IdProducto=?",
+                new String[]{String.valueOf(idProducto)}
+        );
 
         db.close();
-
         return filas > 0;
     }
 
     // =========================
-    // MAPEAR REGISTRO
+    // MAPEO
     // =========================
-    private Producto mapearRegistro(Cursor oRegistros) {
+    private Producto mapearRegistro(Cursor c) {
 
-        int idProducto =oRegistros.getInt(oRegistros.getColumnIndexOrThrow("IdProducto"));
-
-        String nombre =oRegistros.getString(oRegistros.getColumnIndexOrThrow("Nombre"));
-
-        String foto =oRegistros.getString(oRegistros.getColumnIndexOrThrow("Foto"));
-
-        String sku =oRegistros.getString(oRegistros.getColumnIndexOrThrow("SKU"));
-
-        int idCategoria =oRegistros.getInt(oRegistros.getColumnIndexOrThrow("IdCategoria"));
-
-        String talla =oRegistros.getString(oRegistros.getColumnIndexOrThrow("Talla"));
-
-        String color =oRegistros.getString(oRegistros.getColumnIndexOrThrow("Color"));
-
-        int stock =oRegistros.getInt(oRegistros.getColumnIndexOrThrow("Stock"));
-
-        double precio =oRegistros.getDouble(oRegistros.getColumnIndexOrThrow("Precio"));
-
-        String descripcion =oRegistros.getString(oRegistros.getColumnIndexOrThrow("Descripcion"));
-
-        return new Producto(idProducto,nombre,foto,sku,idCategoria,talla,color,stock,precio,descripcion);
+        return new Producto(
+                c.getInt(c.getColumnIndexOrThrow("IdProducto")),
+                c.getString(c.getColumnIndexOrThrow("Nombre")),
+                c.getString(c.getColumnIndexOrThrow("Foto")),
+                c.getString(c.getColumnIndexOrThrow("SKU")),
+                c.getInt(c.getColumnIndexOrThrow("IdCategoria")),
+                c.getString(c.getColumnIndexOrThrow("Talla")),
+                c.getString(c.getColumnIndexOrThrow("Color")),
+                c.getInt(c.getColumnIndexOrThrow("Stock")),
+                c.getDouble(c.getColumnIndexOrThrow("PrecioCompra")),
+                c.getDouble(c.getColumnIndexOrThrow("PrecioVenta")),
+                c.getString(c.getColumnIndexOrThrow("Descripcion"))
+        );
     }
 }
