@@ -22,7 +22,7 @@ public class DAOCategoria {
     public DAOCategoria(Activity contexto) {
 
         this.nombreBD = "WESTHAMDB";
-        this.version = 1;
+        this.version = 2; // Incrementar versión para aplicar cambios de categorías
         this.contexto = contexto;
 
         oHelper = new OpenHelperDB(contexto, nombreBD, null, version);
@@ -95,6 +95,21 @@ public class DAOCategoria {
         oRegistros.close();
         db.close();
 
+        return oC;
+    }
+
+    // =========================
+    // BUSCAR POR NOMBRE
+    // =========================
+    public Categoria BuscarPorNombre(String nombre) {
+        Categoria oC = null;
+        SQLiteDatabase db = oHelper.getReadableDatabase();
+        Cursor oRegistros = db.rawQuery("SELECT * FROM Categoria WHERE Nombre=?", new String[]{nombre});
+        if (oRegistros.moveToFirst()) {
+            oC = mapearRegistro(oRegistros);
+        }
+        oRegistros.close();
+        db.close();
         return oC;
     }
 

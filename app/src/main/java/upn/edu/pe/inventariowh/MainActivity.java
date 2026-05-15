@@ -2,13 +2,18 @@ package upn.edu.pe.inventariowh;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import upn.edu.pe.inventariowh.AccesoDatos.DAOProducto;
+import upn.edu.pe.inventariowh.Modelos.Producto;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,5 +34,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, AgregarProducto.class);
             startActivity(intent);
         });
+        ListView lvListar = findViewById(R.id.listviewProductos);
+        DAOProducto oDAOProductoDB = new DAOProducto(this);
+        lvListar.setAdapter(new ArrayAdapter<Producto>(this, android.R.layout.simple_list_item_1, oDAOProductoDB.ListarTodos()));
     }
 }

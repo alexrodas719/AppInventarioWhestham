@@ -20,7 +20,6 @@ public class Producto {
 
     public Producto() {
     }
-
     public Producto(int idProducto, String nombre, String foto, String sku, int idCategoria, String talla,
                     String color, int stock, double precioCompra,double precioVenta, String descripcion) {
         this.idProducto = idProducto;
@@ -34,7 +33,6 @@ public class Producto {
         this.precioCompra=precioCompra;
         this.precioVenta = precioVenta;
         this.descripcion = descripcion;
-
     }
 
     public int getIdProducto() {
@@ -123,6 +121,11 @@ public class Producto {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    @Override
+    public String toString(){
+        return nombre + "   [Talla: " +talla +" - "+ color +"]     "+"S/ " +precioVenta;
     }
 }
 

@@ -35,6 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtprecio2">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputDescripcion"
             android:layout_width="349dp"
             android:layout_height="60dp"
             android:hint="Descripción"
@@ -82,7 +83,7 @@
         android:layout_marginTop="@dimen/Standar"
         android:text="Nombre del producto"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imgFoto" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
@@ -97,10 +98,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputNombre"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:paddingVertical="0dp"
             android:hint="Nombre.."
+            android:paddingVertical="0dp"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,7 +154,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.907"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imgFoto"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutTalla">
 
         <AutoCompleteTextView
@@ -200,7 +202,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.934"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imgFoto"
         app:layout_constraintTop_toBottomOf="@+id/toolbar3">
 
         <AutoCompleteTextView
@@ -217,7 +219,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/buttonGuardarProducto"
         style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
         android:layout_height="53dp"
@@ -243,10 +245,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputStock"
             android:layout_width="155dp"
             android:layout_height="49dp"
-            android:paddingVertical="0dp"
             android:hint="00.0"
+            android:paddingVertical="0dp"
             android:textAlignment="textStart"
             tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -261,16 +264,17 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputSKU"
             android:layout_width="155dp"
             android:layout_height="49dp"
-            android:paddingVertical="0dp"
             android:hint="--"
+            android:paddingVertical="0dp"
             android:visibility="visible"
             tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgFoto"
         android:layout_width="133dp"
         android:layout_height="118dp"
         android:layout_marginStart="@dimen/Standar"
@@ -301,11 +305,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputPrecioCompra"
             android:layout_width="155dp"
             android:layout_height="49dp"
+            android:hint="0.00"
             android:inputType="number|numberDecimal"
             android:paddingVertical="0dp"
-            android:hint="0.00"
             android:textAlignment="textStart"
             tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -319,6 +324,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView8">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputPrecioVenta"
             android:layout_width="155dp"
             android:layout_height="49dp"
             android:hint="0.00"

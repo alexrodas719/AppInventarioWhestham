@@ -43,7 +43,11 @@ public class OpenHelperDB extends SQLiteOpenHelper {
         db.execSQL(tabla_venta);
         db.execSQL(tabla_detalleVenta);
 
-
+        // Insertar categorías por defecto
+        db.execSQL("INSERT INTO Categoria(Nombre, Descripcion) VALUES('Ropa', 'Artículos de vestimenta')");
+        db.execSQL("INSERT INTO Categoria(Nombre, Descripcion) VALUES('Calzado', 'Todo tipo de zapatos y zapatillas')");
+        db.execSQL("INSERT INTO Categoria(Nombre, Descripcion) VALUES('Accesorios', 'Complementos y accesorios')");
+        db.execSQL("INSERT INTO Categoria(Nombre, Descripcion) VALUES('Otros', 'Categoría general')");
     }
 
     @Override

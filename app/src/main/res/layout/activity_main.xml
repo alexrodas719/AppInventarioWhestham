@@ -108,6 +108,7 @@
         app:menu="@menu/menulayout" />
 
     <ListView
+        android:id="@+id/listviewProductos"
         android:layout_width="406dp"
         android:layout_height="407dp"
         android:layout_marginStart="1dp"
