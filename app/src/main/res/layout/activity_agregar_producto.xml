@@ -6,7 +6,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbars="vertical"
     tools:context=".AgregarProducto">
+
+    <TextView
+        android:id="@+id/textView8"
+        style="@style/Etiqueta_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Precio de venta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.682"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/Standar"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/Standar"
+        app:hintEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.426"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtprecio2">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="349dp"
+            android:layout_height="60dp"
+            android:hint="Descripción"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar3"
@@ -26,46 +59,19 @@
             android:contentDescription="@string/btn_retroceder"
             android:padding="12dp"
             android:src="@drawable/outline_arrow_back_ios_24"
-            app:tint="?attr/colorAccent" />
+            app:tint="@color/black"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="8dp" />
 
         <TextView
             android:id="@+id/toolbar_title"
+            style="@style/subtitulosAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Agregar producto"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="Agregar producto" />
 
     </androidx.appcompat.widget.Toolbar>
-
-    <TextView
-        android:id="@+id/textView2"
-        style="@style/subtitulosAccent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:text="Agregar informacion "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar3" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="212dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="101dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="119dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:srcCompat="@mipmap/subirimagen" />
 
     <TextView
         android:id="@+id/textView3"
@@ -83,8 +89,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/Standar"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/Standar"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,9 +98,10 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:hint="Ingrese nombre"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:layout_height="49dp"
+            android:paddingVertical="0dp"
+            android:hint="Nombre.."
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -102,25 +109,11 @@
         style="@style/Etiqueta_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/Standar"
         android:layout_marginTop="16dp"
         android:text="Categoria"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
-    <TextView
-        android:id="@+id/textView5"
-        style="@style/Etiqueta_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/Standar"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="237dp"
-        android:text="Talla"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <TextView
         android:id="@+id/textView7"
@@ -128,7 +121,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="237dp"
         android:text="Stock"
         app:layout_constraintEnd_toEndOf="parent"
@@ -137,125 +130,124 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <TextView
-        android:id="@+id/textView8"
-        style="@style/Etiqueta_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="237dp"
-        android:text="Descritpcion"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
-
-    <TextView
         android:id="@+id/textView9"
         style="@style/Etiqueta_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Precio"
+        android:text="SKU"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.624"
+        app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6">
+        app:layout_constraintHorizontal_bias="0.907"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutTalla">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteColor"
             android:layout_width="155dp"
-            android:layout_height="32dp"
-            android:hint="Negro"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:layout_height="49dp"
+            android:hint="Color"
+            android:inputType="none"
+            android:paddingVertical="0dp"
+            android:popupBackground="#D0ECFD"
+            android:textColorHint="@color/gris"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/Standar"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="@dimen/Standar"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteCategoria"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:hint="Seleccionar Categoria"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:layout_height="49dp"
+            android:hint="Seleccionar una categoria"
+            android:inputType="none"
+            android:paddingVertical="0dp"
+            android:popupBackground="#D0ECFD"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutTalla"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/Standar"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/textInputLayout3"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="119dp"
-            android:layout_height="32sp"
-            android:hint="S"
-            tools:ignore="TouchTargetSizeCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/textView6"
-        style="@style/Etiqueta_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="116dp"
-        android:text="Color"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.927"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+        app:layout_constraintHorizontal_bias="0.934"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar3">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTalla"
+            android:layout_width="155dp"
+            android:layout_height="49dp"
+            android:backgroundTint="#D0ECFD"
+            android:hint="Talla"
+            android:inputType="none"
+            android:paddingVertical="0dp"
+            android:popupBackground="#D0ECFD"
+            android:textColorHint="@color/gris"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/button3"
+        style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="53dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="28dp"
+        android:backgroundTint="@color/azul"
         android:text="Guardar Producto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/Standar"
         android:layout_marginEnd="32dp"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toStartOf="@+id/textInputLayout4"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="119dp"
-            android:layout_height="32dp"
-            android:hint="00"
+            android:layout_width="155dp"
+            android:layout_height="49dp"
+            android:paddingVertical="0dp"
+            android:hint="00.0"
+            android:textAlignment="textStart"
             tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -263,40 +255,75 @@
         android:id="@+id/textInputLayout4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="@dimen/Standar"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="155dp"
-            android:layout_height="32dp"
-            android:hint="0.00"
+            android:layout_height="49dp"
+            android:paddingVertical="0dp"
+            android:hint="--"
+            android:visibility="visible"
             tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="133dp"
+        android:layout_height="118dp"
+        android:layout_marginStart="@dimen/Standar"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar3"
+        app:srcCompat="@drawable/outline_broken_image_24"
+        tools:srcCompat="@drawable/outline_broken_image_24" />
+
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/textView2"
+        style="@style/Etiqueta_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/Standar"
         android:layout_marginTop="16dp"
-        android:text="Descripcion"
+        android:text="Precio de compra"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtprecio2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/Standar"
+        app:hintEnabled="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10">
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="365dp"
-            android:layout_height="61dp"
-            android:hint="Descripcion" />
+            android:layout_width="155dp"
+            android:layout_height="49dp"
+            android:inputType="number|numberDecimal"
+            android:paddingVertical="0dp"
+            android:hint="0.00"
+            android:textAlignment="textStart"
+            tools:ignore="TouchTargetSizeCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/Standar"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="155dp"
+            android:layout_height="49dp"
+            android:hint="0.00"
+            android:inputType="number|numberDecimal"
+            android:paddingVertical="0dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

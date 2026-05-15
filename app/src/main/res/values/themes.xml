@@ -3,7 +3,9 @@
     <style name="Base.Theme.InventarioWH" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/Indigo</item>
+        <item name="colorButtonNormal">@color/azul</item>
         <item name="colorAccent">@color/azul</item>
+        <item name="backgroundColor">@color/celeste</item>
         <item name="android:statusBarColor">@color/Indigo</item>
     </style>
     <style name="Etiqueta_normal">

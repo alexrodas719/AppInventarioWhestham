@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -19,15 +20,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="@android:color/white">
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="WESTHAM"
-                android:textColor="@android:color/white"
-                android:textSize="32sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="WESTHAM"
+            android:textColor="@android:color/white"
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -49,6 +50,8 @@
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#2FFFFFFF"
+            android:baselineAligned="true"
             app:iconifiedByDefault="false"
             app:queryHint="Buscar productos..." />
 
@@ -57,12 +60,13 @@
     <Button
         android:id="@+id/button"
         style="@style/Widget.Material3.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="209dp"
+        android:layout_height="54dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/azul"
         android:text="Agregar Producto"
-        android:textColorLink="@color/Indigo"
+        android:textColorLink="@color/gris"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,17 +75,17 @@
 
     <TextView
         android:id="@+id/textView"
-        style="@style/Etiqueta_normal"
+        style="@style/subtitulosAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/Standar"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="@dimen/Standar"
-        android:text="0 productos"
+        android:text="0 Productos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchCard"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchCard" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -90,7 +94,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="475dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
+        android:background="#FBF9F9"
         android:importantForAccessibility="yes"
         app:itemGravity="center"
         app:itemIconGravity="top"
@@ -102,5 +106,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:menu="@menu/menulayout" />
+
+    <ListView
+        android:layout_width="406dp"
+        android:layout_height="407dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="8dp"
+        android:background="#00FDFDFD"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
