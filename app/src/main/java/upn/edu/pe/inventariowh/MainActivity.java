@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import androidx.appcompat.widget.SearchView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,11 +13,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.List;
+
 import upn.edu.pe.inventariowh.AccesoDatos.DAOProducto;
 import upn.edu.pe.inventariowh.Modelos.Producto;
 
 public class MainActivity extends AppCompatActivity {
-
+    ListView lvListar;
+    DAOProducto daoProducto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +35,46 @@ public class MainActivity extends AppCompatActivity {
         // Configuración del botón para agregar producto
         Button btnAgregar = findViewById(R.id.button);
         btnAgregar.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AgregarProducto.class);
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    AgregarProducto.class
+            );
             startActivity(intent);
         });
-        ListView lvListar = findViewById(R.id.listviewProductos);
-        DAOProducto oDAOProductoDB = new DAOProducto(this);
-        lvListar.setAdapter(new ArrayAdapter<Producto>(this, android.R.layout.simple_list_item_1, oDAOProductoDB.ListarTodos()));
+        lvListar = findViewById(R.id.listviewProductos);
+        daoProducto = new DAOProducto(this);
+        
+        actualizarLista("");
+        //configurar el buscador 
+        SearchView searchView = findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                actualizarLista(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                actualizarLista(newText);
+                return false;
+            }
+        });
+    }
+
+    private void actualizarLista(String texto) {
+        List<Producto> listaFiltrada = daoProducto.Filtrar(texto);
+        ArrayAdapter<Producto> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                listaFiltrada
+        );
+        lvListar.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Recargar la lista al volver de "Agregar Producto"
+        actualizarLista("");
     }
 }

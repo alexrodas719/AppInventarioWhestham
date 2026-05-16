@@ -23,7 +23,7 @@ public class DAOProducto {
     public DAOProducto(Activity contexto) {
 
         this.nombreBD = "WESTHAMDB";
-        this.version = 2; // 🔥 IMPORTANTE: fuerza actualización
+        this.version = 2; // IMPORTANTE: fuerza actualización
         this.contexto = contexto;
 
         oHelper = new OpenHelperDB(contexto, nombreBD, null, version);
@@ -51,7 +51,7 @@ public class DAOProducto {
         long fila = db.insert("Producto", null, oColumna);
 
         if (fila == -1) {
-            Log.e("DB_INSERT", "❌ Error al insertar producto (posible SKU duplicado)");
+            Log.e("DB_INSERT", " Error al insertar producto (posible SKU duplicado)");
             db.close();
             return false;
         }
@@ -154,10 +154,26 @@ public class DAOProducto {
         db.close();
         return filas > 0;
     }
+    //filtrado para biscar por nombre y SKU
+    public List<Producto> Filtrar(String texto) {
+        List<Producto> lista = new ArrayList<>();
+        SQLiteDatabase db = oHelper.getReadableDatabase();
 
-    // =========================
-    // MAPEO
-    // =========================
+        // Buscamos por Nombre o por SKU
+        Cursor c = db.rawQuery(
+                "SELECT * FROM Producto WHERE Nombre LIKE ? OR SKU LIKE ?",
+                new String[]{"%" + texto + "%", "%" + texto + "%"}
+        );
+
+        if (c.moveToFirst()) {
+            do {
+                lista.add(mapearRegistro(c));
+            } while (c.moveToNext());
+        }
+        c.close();
+        db.close();
+        return lista;
+    }
     private Producto mapearRegistro(Cursor c) {
 
         return new Producto(

@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">InventarioWH</string>
-    <string name="btn_retroceder">Retroceder</string>
-    <string name="hint_buscar">Buscar Productos&#8230;</string>
+    <string name="app_name" translatable="false">InventarioWH</string>
+    <string name="btn_retroceder" translatable="false">Retroceder</string>
+    <string name="hint_buscar" translatable="false">Buscar Productos&#8230;</string>
+    <string name="boton_Agregar" translatable="false">Agregar producto</string>
+    <string name="hint_nombre_producto" translatable="false">Nombre del producto</string>
+    <string name="hint_categoria_producto" translatable="false">Categoría</string>
+    <string name="btn_guardar" translatable="false">Guardar Producto</string>
+    <string name="productos">0 Productos</string>
+    <string name="NombreTienda">WESTHAM</string>
 </resources>

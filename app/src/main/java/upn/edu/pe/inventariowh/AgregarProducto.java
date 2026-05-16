@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +15,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.List;
-
 import upn.edu.pe.inventariowh.AccesoDatos.DAOCategoria;
 import upn.edu.pe.inventariowh.AccesoDatos.DAOProducto;
 import upn.edu.pe.inventariowh.Modelos.Categoria;
@@ -24,19 +22,10 @@ import upn.edu.pe.inventariowh.Modelos.Producto;
 
 public class AgregarProducto extends AppCompatActivity {
     //variables para los componentes visuales
-    ImageView imgFoto;
-    AutoCompleteTextView autoCompleteCategoria;
-    AutoCompleteTextView autoCompleteTalla;
-    AutoCompleteTextView autoCompleteColor;
-    String[] categorias = {"Ropa", "Calzado", "Accesorios", "Otros"};
-    String[] tallas = {"S", "M", "L", "XL", "XXL"};
-    String[] colores = {"Negro", "Blanco", "Rojo", "Azul", "Verde"};
-    TextInputEditText textInputNombre;
-    TextInputEditText textInputStock;
-    TextInputEditText textInputSKU;
-    TextInputEditText textInputPrecioCompra;
-    TextInputEditText textInputPrecioVenta;
-    TextInputEditText textInputDescripcion;
+    ImageView imgFoto; AutoCompleteTextView autoCompleteCategoria;  AutoCompleteTextView autoCompleteTalla; AutoCompleteTextView autoCompleteColor;
+    String[] categorias = {"Ropa", "Calzado", "Accesorios", "Otros"};   String[] tallas = {"S", "M", "L", "XL", "XXL"}; String[] colores = {"Negro", "Blanco", "Rojo", "Azul", "Verde"};
+    TextInputEditText textInputNombre;  TextInputEditText textInputStock;   TextInputEditText textInputSKU;
+    TextInputEditText textInputPrecioCompra;    TextInputEditText textInputPrecioVenta; TextInputEditText textInputDescripcion;
     Button buttonGuradarProducto;
 
     @Override
@@ -111,7 +100,7 @@ public class AgregarProducto extends AppCompatActivity {
             // 3. Guardar en la base de datos
             DAOProducto daoProducto = new DAOProducto(this);
             if (daoProducto.Insertar(oProducto)) {
-                // Éxito
+                Toast.makeText(this, "Producto guardado correctamente", Toast.LENGTH_SHORT).show();
                 finish(); // Opcional: cerrar actividad al guardar
             }
             

@@ -3,12 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/outline_box_24"
+        android:icon="@drawable/shopping_16532589"
         android:title="Inventario" />
     <item
-        android:icon="@drawable/outline_attach_money_24"
-        android:title="Reportes" />
+        android:icon="@drawable/venta_24"
+        android:title="Movimientos" />
     <item
-        android:icon="@drawable/outline_encrypted_24"
+        android:icon="@drawable/ajustes_24"
         android:title="Configuracion" />
 </menu>

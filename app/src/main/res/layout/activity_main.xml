@@ -25,7 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="WESTHAM"
+            android:text="@string/NombreTienda"
+            android:fontFamily="sans-serif"
             android:textColor="@android:color/white"
             android:textSize="32sp"
             android:textStyle="bold" />
@@ -53,7 +54,8 @@
             android:background="#2FFFFFFF"
             android:baselineAligned="true"
             app:iconifiedByDefault="false"
-            app:queryHint="Buscar productos..." />
+            app:queryHint="Buscar productos..."
+            />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -65,7 +67,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:backgroundTint="@color/azul"
-        android:text="Agregar Producto"
+        android:text="@string/btn_guardar"
         android:textColorLink="@color/gris"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
@@ -81,7 +83,7 @@
         android:layout_marginStart="@dimen/Standar"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="@dimen/Standar"
-        android:text="0 Productos"
+        android:text="@string/productos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,31 +91,37 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:layout_marginTop="475dp"
         android:layout_marginEnd="1dp"
         android:background="#FBF9F9"
         android:importantForAccessibility="yes"
-        app:itemGravity="center"
+        android:isScrollContainer="false"
+        android:paddingHorizontal="@dimen/Standar"
+        app:activeIndicatorLabelPadding="4dp"
+        app:itemGravity="start_center"
         app:itemIconGravity="top"
         app:itemIconTint="@color/nav_item_color"
         app:itemPaddingBottom="1dp"
-        app:labelVisibilityMode="labeled"
+        app:itemTextAppearanceActiveBoldEnabled="true"
+        app:labelVisibilityMode="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.666"
         app:menu="@menu/menulayout" />
 
     <ListView
         android:id="@+id/listviewProductos"
-        android:layout_width="406dp"
-        android:layout_height="407dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="1dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="#00FDFDFD"
         app:layout_constraintBottom_toTopOf="@+id/button"
