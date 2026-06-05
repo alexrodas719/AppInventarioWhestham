@@ -1,5 +1,9 @@
 package upn.edu.pe.inventariowh.Modelos;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class MovimientoInventario {
     private int idMovimiento;
     private String codigo;
@@ -87,5 +91,23 @@ public class MovimientoInventario {
 
     public void setObservacion(String observacion) {
         this.observacion = observacion;
+    }
+
+    @Override
+    public String toString() {
+
+        SimpleDateFormat sdf =
+                new SimpleDateFormat("dd/MM/yyyy HH:mm",
+                        Locale.getDefault());
+
+        String fechaTexto =
+                sdf.format(new Date(fecha));
+
+        return "Código: " + codigo +
+                "\nTipo: " + tipo +
+                "\nCantidad: " + cantidad +
+                "\nMonto: S/ " + String.format("%.2f", monto) +
+                "\nFecha: " + fechaTexto +
+                "\nObservación: " + observacion;
     }
 }

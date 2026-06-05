@@ -23,15 +23,12 @@ public class DAOProducto {
     public DAOProducto(Activity contexto) {
 
         this.nombreBD = "WESTHAMDB";
-        this.version = 2; // IMPORTANTE: fuerza actualización
+        this.version = 2;
         this.contexto = contexto;
 
         oHelper = new OpenHelperDB(contexto, nombreBD, null, version);
     }
 
-    // =========================
-    // INSERTAR (CORREGIDO)
-    // =========================
     public boolean Insertar(Producto oP) {
 
         SQLiteDatabase db = oHelper.getWritableDatabase();
@@ -56,14 +53,10 @@ public class DAOProducto {
             return false;
         }
 
-        Log.d("DB_INSERT", "✔ Producto insertado ID: " + fila);
         db.close();
         return true;
     }
 
-    // =========================
-    // LISTAR
-    // =========================
     public List<Producto> ListarTodos() {
 
         List<Producto> lista = new ArrayList<>();
@@ -84,9 +77,6 @@ public class DAOProducto {
         return lista;
     }
 
-    // =========================
-    // BUSCAR
-    // =========================
     public Producto Buscar(int idProducto) {
 
         SQLiteDatabase db = oHelper.getReadableDatabase();
@@ -108,39 +98,33 @@ public class DAOProducto {
         return p;
     }
 
-    // =========================
-    // ACTUALIZAR
-    // =========================
-    public boolean Actualizar(Producto oP) {
+    public boolean Actualizar(Producto p) {
 
         SQLiteDatabase db = oHelper.getWritableDatabase();
 
-        ContentValues oColumna = new ContentValues();
-        oColumna.put("Nombre", oP.getNombre());
-        oColumna.put("Foto", oP.getFoto());
-        oColumna.put("SKU", oP.getSku());
-        oColumna.put("IdCategoria", oP.getIdCategoria());
-        oColumna.put("Talla", oP.getTalla());
-        oColumna.put("Color", oP.getColor());
-        oColumna.put("Stock", oP.getStock());
-        oColumna.put("PrecioCompra", oP.getPrecioCompra());
-        oColumna.put("PrecioVenta", oP.getPrecioVenta());
-        oColumna.put("Descripcion", oP.getDescripcion());
+        ContentValues cv = new ContentValues();
+        cv.put("Nombre", p.getNombre());
+        cv.put("Foto", p.getFoto());
+        cv.put("SKU", p.getSku());
+        cv.put("IdCategoria", p.getIdCategoria());
+        cv.put("Talla", p.getTalla());
+        cv.put("Color", p.getColor());
+        cv.put("Stock", p.getStock());
+        cv.put("PrecioCompra", p.getPrecioCompra());
+        cv.put("PrecioVenta", p.getPrecioVenta());
+        cv.put("Descripcion", p.getDescripcion());
 
         int filas = db.update(
                 "Producto",
-                oColumna,
+                cv,
                 "IdProducto=?",
-                new String[]{String.valueOf(oP.getIdProducto())}
+                new String[]{String.valueOf(p.getIdProducto())}
         );
 
         db.close();
         return filas > 0;
     }
 
-    // =========================
-    // ELIMINAR
-    // =========================
     public boolean Eliminar(int idProducto) {
 
         SQLiteDatabase db = oHelper.getWritableDatabase();
@@ -154,12 +138,11 @@ public class DAOProducto {
         db.close();
         return filas > 0;
     }
-    //filtrado para biscar por nombre y SKU
+
     public List<Producto> Filtrar(String texto) {
         List<Producto> lista = new ArrayList<>();
         SQLiteDatabase db = oHelper.getReadableDatabase();
 
-        // Buscamos por Nombre o por SKU
         Cursor c = db.rawQuery(
                 "SELECT * FROM Producto WHERE Nombre LIKE ? OR SKU LIKE ?",
                 new String[]{"%" + texto + "%", "%" + texto + "%"}
@@ -174,6 +157,7 @@ public class DAOProducto {
         db.close();
         return lista;
     }
+
     private Producto mapearRegistro(Cursor c) {
 
         return new Producto(

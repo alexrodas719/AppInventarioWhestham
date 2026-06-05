@@ -22,16 +22,13 @@ public class DAOVenta {
     public DAOVenta(Activity contexto) {
 
         this.nombreBD = "WESTHAMDB";
-        this.version = 1;
+        this.version = 2;
         this.contexto = contexto;
 
         oHelper = new OpenHelperDB(contexto, nombreBD, null, version);
     }
 
-    // =========================
-    // INSERTAR
-    // =========================
-    public boolean Insertar(Venta oV) {
+    public long Insertar(Venta oV) {
 
         ContentValues oColumna = new ContentValues();
 
@@ -43,14 +40,13 @@ public class DAOVenta {
 
         SQLiteDatabase db = oHelper.getWritableDatabase();
 
-        long fila =db.insert("Venta",null,oColumna);
+        long id = db.insert("Venta", null, oColumna);
+
         db.close();
-        return fila > 0;
+
+        return id;
     }
 
-    // =========================
-    // LISTAR TODOS
-    // =========================
     public List<Venta> ListarTodos() {
 
         List<Venta> lista = new ArrayList<>();
@@ -75,9 +71,6 @@ public class DAOVenta {
         return lista;
     }
 
-    // =========================
-    // BUSCAR
-    // =========================
     public Venta Buscar(int idVenta) {
 
         Venta oV = null;
@@ -99,9 +92,6 @@ public class DAOVenta {
         return oV;
     }
 
-    // =========================
-    // ACTUALIZAR
-    // =========================
     public boolean Actualizar(Venta oV) {
 
         ContentValues oColumna = new ContentValues();
@@ -125,9 +115,6 @@ public class DAOVenta {
         return filas > 0;
     }
 
-    // =========================
-    // ELIMINAR
-    // =========================
     public boolean Eliminar(int idVenta) {
 
         SQLiteDatabase db = oHelper.getWritableDatabase();
@@ -142,9 +129,6 @@ public class DAOVenta {
         return filas > 0;
     }
 
-    // =========================
-    // MAPEAR REGISTRO
-    // =========================
     private Venta mapearRegistro(Cursor oRegistros) {
 
         int idVenta =oRegistros.getInt(oRegistros.getColumnIndexOrThrow("IdVenta"));

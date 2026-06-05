@@ -13,165 +13,128 @@ import upn.edu.pe.inventariowh.Modelos.MovimientoInventario;
 
 public class DAOMovimientoInventario {
 
-    private String nombreBD;
-    private int version;
-    private Activity contexto;
-
-    SQLiteOpenHelper oHelper;
+    SQLiteOpenHelper helper;
 
     public DAOMovimientoInventario(Activity contexto) {
-
-        this.nombreBD = "WESTHAMDB";
-        this.version = 1;
-        this.contexto = contexto;
-
-        oHelper = new OpenHelperDB(contexto, nombreBD, null, version);
+        helper = new OpenHelperDB(contexto, "WESTHAMDB", null, 2);
     }
 
-    // =========================
-    // INSERTAR
-    // =========================
-    public boolean Insertar(MovimientoInventario oM) {
+    public boolean Insertar(MovimientoInventario m) {
 
-        ContentValues oColumna = new ContentValues();
+        SQLiteDatabase db = helper.getWritableDatabase();
 
-        oColumna.put("Codigo", oM.getCodigo());
-        oColumna.put("Tipo", oM.getTipo());
-        oColumna.put("IdProducto", oM.getIdProducto());
-        oColumna.put("Cantidad", oM.getCantidad());
-        oColumna.put("Fecha", oM.getFecha());
-        oColumna.put("Monto", oM.getMonto());
-        oColumna.put("Observacion", oM.getObservacion());
+        ContentValues cv = new ContentValues();
+        cv.put("Codigo", m.getCodigo());
+        cv.put("Tipo", m.getTipo());
+        cv.put("IdProducto", m.getIdProducto());
+        cv.put("Cantidad", m.getCantidad());
+        cv.put("Fecha", m.getFecha());
+        cv.put("Monto", m.getMonto());
+        cv.put("Observacion", m.getObservacion());
 
-        SQLiteDatabase db = oHelper.getWritableDatabase();
-
-        long fila =
-                db.insert("MovimientoInventario",
-                        null,
-                        oColumna);
-
+        long r = db.insert("MovimientoInventario", null, cv);
         db.close();
 
-        return fila > 0;
+        return r > 0;
     }
 
-    // =========================
-    // LISTAR TODOS
-    // =========================
     public List<MovimientoInventario> ListarTodos() {
 
         List<MovimientoInventario> lista = new ArrayList<>();
 
-        SQLiteDatabase db = oHelper.getReadableDatabase();
+        SQLiteDatabase db = helper.getReadableDatabase();
 
-        Cursor oRegistros =
-                db.rawQuery("SELECT * FROM MovimientoInventario", null);
+        Cursor c = db.rawQuery(
+                "SELECT * FROM MovimientoInventario ORDER BY IdMovimiento DESC",
+                null
+        );
 
-        if (oRegistros.moveToFirst()) {
-
+        if (c.moveToFirst()) {
             do {
-
-                lista.add(mapearRegistro(oRegistros));
-
-            } while (oRegistros.moveToNext());
+                lista.add(mapear(c));
+            } while (c.moveToNext());
         }
 
-        oRegistros.close();
+        c.close();
         db.close();
 
         return lista;
     }
 
-    // =========================
-    // BUSCAR
-    // =========================
-    public MovimientoInventario Buscar(int idMovimiento) {
+    public MovimientoInventario Buscar(int id) {
 
-        MovimientoInventario oM = null;
+        SQLiteDatabase db = helper.getReadableDatabase();
 
-        SQLiteDatabase db = oHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT * FROM MovimientoInventario WHERE IdMovimiento=?",
+                new String[]{String.valueOf(id)}
+        );
 
-        Cursor oRegistros =
-                db.rawQuery("SELECT * FROM MovimientoInventario WHERE IdMovimiento=?",
-                        new String[]{String.valueOf(idMovimiento)});
+        MovimientoInventario m = null;
 
-        if (oRegistros.moveToFirst()) {
-
-            oM = mapearRegistro(oRegistros);
+        if (c.moveToFirst()) {
+            m = mapear(c);
         }
 
-        oRegistros.close();
+        c.close();
         db.close();
 
-        return oM;
+        return m;
     }
 
-    // =========================
-    // ACTUALIZAR
-    // =========================
-    public boolean Actualizar(MovimientoInventario oM) {
+    public boolean Actualizar(MovimientoInventario m) {
 
-        ContentValues oColumna = new ContentValues();
+        SQLiteDatabase db = helper.getWritableDatabase();
 
-        oColumna.put("Codigo", oM.getCodigo());
-        oColumna.put("Tipo", oM.getTipo());
-        oColumna.put("IdProducto", oM.getIdProducto());
-        oColumna.put("Cantidad", oM.getCantidad());
-        oColumna.put("Fecha", oM.getFecha());
-        oColumna.put("Monto", oM.getMonto());
-        oColumna.put("Observacion", oM.getObservacion());
+        ContentValues cv = new ContentValues();
+        cv.put("Codigo", m.getCodigo());
+        cv.put("Tipo", m.getTipo());
+        cv.put("IdProducto", m.getIdProducto());
+        cv.put("Cantidad", m.getCantidad());
+        cv.put("Fecha", m.getFecha());
+        cv.put("Monto", m.getMonto());
+        cv.put("Observacion", m.getObservacion());
 
-        SQLiteDatabase db = oHelper.getWritableDatabase();
-
-        int filas =
-                db.update("MovimientoInventario",
-                        oColumna,
-                        "IdMovimiento=?",
-                        new String[]{String.valueOf(oM.getIdMovimiento())});
+        int r = db.update(
+                "MovimientoInventario",
+                cv,
+                "IdMovimiento=?",
+                new String[]{String.valueOf(m.getIdMovimiento())}
+        );
 
         db.close();
 
-        return filas > 0;
+        return r > 0;
     }
 
-    // =========================
-    // ELIMINAR
-    // =========================
-    public boolean Eliminar(int idMovimiento) {
+    public boolean Eliminar(int id) {
 
-        SQLiteDatabase db = oHelper.getWritableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
 
-        int filas =
-                db.delete("MovimientoInventario",
-                        "IdMovimiento=?",
-                        new String[]{String.valueOf(idMovimiento)});
+        int r = db.delete(
+                "MovimientoInventario",
+                "IdMovimiento=?",
+                new String[]{String.valueOf(id)}
+        );
 
         db.close();
 
-        return filas > 0;
+        return r > 0;
     }
 
-    // =========================
-    // MAPEAR REGISTRO
-    // =========================
-    private MovimientoInventario mapearRegistro(Cursor oRegistros) {
+    private MovimientoInventario mapear(Cursor c) {
 
-        int idMovimiento =oRegistros.getInt(oRegistros.getColumnIndexOrThrow("IdMovimiento"));
+        MovimientoInventario m = new MovimientoInventario();
 
-        String codigo =oRegistros.getString(oRegistros.getColumnIndexOrThrow("Codigo"));
+        m.setIdMovimiento(c.getInt(c.getColumnIndexOrThrow("IdMovimiento")));
+        m.setCodigo(c.getString(c.getColumnIndexOrThrow("Codigo")));
+        m.setTipo(c.getString(c.getColumnIndexOrThrow("Tipo")));
+        m.setIdProducto(c.getInt(c.getColumnIndexOrThrow("IdProducto")));
+        m.setCantidad(c.getInt(c.getColumnIndexOrThrow("Cantidad")));
+        m.setFecha(c.getLong(c.getColumnIndexOrThrow("Fecha")));
+        m.setMonto(c.getDouble(c.getColumnIndexOrThrow("Monto")));
+        m.setObservacion(c.getString(c.getColumnIndexOrThrow("Observacion")));
 
-        String tipo =oRegistros.getString(oRegistros.getColumnIndexOrThrow("Tipo"));
-
-        int idProducto =oRegistros.getInt(oRegistros.getColumnIndexOrThrow("IdProducto"));
-
-        int cantidad =oRegistros.getInt(oRegistros.getColumnIndexOrThrow("Cantidad"));
-
-        long fecha =oRegistros.getLong(oRegistros.getColumnIndexOrThrow("Fecha"));
-
-        double monto =oRegistros.getDouble(oRegistros.getColumnIndexOrThrow("Monto"));
-
-        String observacion =oRegistros.getString(oRegistros.getColumnIndexOrThrow("Observacion"));
-
-        return new MovimientoInventario(idMovimiento,codigo,tipo,idProducto,cantidad,fecha,monto,observacion);
+        return m;
     }
 }

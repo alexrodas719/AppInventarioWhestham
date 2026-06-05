@@ -22,15 +22,12 @@ public class DAODetalleVenta {
     public DAODetalleVenta(Activity contexto) {
 
         this.nombreBD = "WESTHAMDB";
-        this.version = 1;
+        this.version = 2;
         this.contexto = contexto;
 
         oHelper = new OpenHelperDB(contexto, nombreBD, null, version);
     }
 
-    // =========================
-    // INSERTAR
-    // =========================
     public boolean Insertar(DetalleVenta oDV) {
 
         ContentValues oColumna = new ContentValues();
@@ -53,9 +50,6 @@ public class DAODetalleVenta {
         return fila > 0;
     }
 
-    // =========================
-    // LISTAR TODOS
-    // =========================
     public List<DetalleVenta> ListarTodos() {
 
         List<DetalleVenta> lista = new ArrayList<>();
@@ -80,9 +74,6 @@ public class DAODetalleVenta {
         return lista;
     }
 
-    // =========================
-    // BUSCAR
-    // =========================
     public DetalleVenta Buscar(int idDetalleVenta) {
 
         DetalleVenta oDV = null;
@@ -104,9 +95,6 @@ public class DAODetalleVenta {
         return oDV;
     }
 
-    // =========================
-    // ACTUALIZAR
-    // =========================
     public boolean Actualizar(DetalleVenta oDV) {
 
         ContentValues oColumna = new ContentValues();
@@ -130,9 +118,6 @@ public class DAODetalleVenta {
         return filas > 0;
     }
 
-    // =========================
-    // ELIMINAR
-    // =========================
     public boolean Eliminar(int idDetalleVenta) {
 
         SQLiteDatabase db = oHelper.getWritableDatabase();
@@ -147,9 +132,6 @@ public class DAODetalleVenta {
         return filas > 0;
     }
 
-    // =========================
-    // MAPEAR REGISTRO
-    // =========================
     private DetalleVenta mapearRegistro(Cursor oRegistros) {
 
         int idDetalleVenta =oRegistros.getInt(oRegistros.getColumnIndexOrThrow("IdDetalleVenta"));

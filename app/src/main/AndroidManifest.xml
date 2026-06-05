@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InventarioWH">
         <activity
+            android:name=".VentaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MovimientoActivity"
+            android:exported="false" />
+        <activity
             android:name=".AgregarProducto"
             android:exported="false" />
         <activity

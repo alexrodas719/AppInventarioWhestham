@@ -1,6 +1,5 @@
 package upn.edu.pe.inventariowh.Modelos;
 
-
 public class Producto {
 
     private int idProducto;
@@ -128,8 +127,3 @@ public class Producto {
         return nombre + "   [Talla: " +talla +" - "+ color +"]     "+"S/ " +precioVenta;
     }
 }
-
-
-
-
-
