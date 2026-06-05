@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import androidx.appcompat.widget.SearchView;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +22,7 @@ import upn.edu.pe.inventariowh.Modelos.Producto;
 public class MainActivity extends AppCompatActivity {
     ListView lvListar;
     DAOProducto daoProducto;
+    TextView lbContarProductos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         lvListar = findViewById(R.id.listviewProductos);
+        lbContarProductos = findViewById(R.id.lbContarProductos);
         daoProducto = new DAOProducto(this);
         
         actualizarLista("");
@@ -69,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
                 listaFiltrada
         );
         lvListar.setAdapter(adapter);
+
+        // Actualizar el contador de productos
+        lbContarProductos.setText(listaFiltrada.size() + " Productos");
     }
 
     @Override
