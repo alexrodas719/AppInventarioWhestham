@@ -1,8 +1,11 @@
 package upn.edu.pe.inventariowh;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,8 @@ public class VentaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venta);
 
+
+
         txtCodigo = findViewById(R.id.txtCodigo);
         txtCantidad = findViewById(R.id.txtCantidad);
 
@@ -65,7 +70,27 @@ public class VentaActivity extends AppCompatActivity {
         btnRegistrarVenta.setOnClickListener(v -> registrarVenta());
 
         actualizarTotal();
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+
+            int id = item.getItemId();
+
+            if (id == R.id.nav_movimientos) {
+                startActivity(new Intent(VentaActivity.this, MovimientoActivity.class));
+                return true;
+            }
+
+            if (id == R.id.nav_inventario) {
+                startActivity(new Intent(VentaActivity.this, MainActivity.class));
+                return true;
+            }
+
+            return false;
+        });
     }
+
 
     private void buscarProducto() {
 
@@ -157,6 +182,18 @@ public class VentaActivity extends AppCompatActivity {
                 d.setIdVenta((int) idVenta);
                 daoDetalle.Insertar(d);
 
+                // 🔥 1. BUSCAR PRODUCTO ACTUALIZADO
+                Producto p = daoProducto.Buscar(d.getIdProducto());
+
+                if (p != null) {
+
+                    int nuevoStock = p.getStock() - d.getCantidad();
+
+                    // 🔥 2. ACTUALIZAR STOCK EN BD
+                    daoProducto.ActualizarStock(p.getIdProducto(), nuevoStock);
+                }
+
+                // 🔥 MOVIMIENTO INVENTARIO
                 MovimientoInventario m = new MovimientoInventario();
                 m.setCodigo("MOV-" + System.currentTimeMillis());
                 m.setTipo("SALIDA");

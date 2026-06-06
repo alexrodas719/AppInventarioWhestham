@@ -157,13 +157,29 @@ public class DAOProducto {
         db.close();
         return lista;
     }
+    public boolean ActualizarStock(int idProducto, int nuevoStock) {
 
+        SQLiteDatabase db = oHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put("Stock", nuevoStock);
+
+        int filas = db.update(
+                "Producto",
+                cv,
+                "IdProducto=?",
+                new String[]{String.valueOf(idProducto)}
+        );
+
+        db.close();
+        return filas > 0;
+    }
     private Producto mapearRegistro(Cursor c) {
 
         return new Producto(
                 c.getInt(c.getColumnIndexOrThrow("IdProducto")),
                 c.getString(c.getColumnIndexOrThrow("Nombre")),
-                c.getString(c.getColumnIndexOrThrow("Foto")),
+                c.getBlob(c.getColumnIndexOrThrow("Foto")),
                 c.getString(c.getColumnIndexOrThrow("SKU")),
                 c.getInt(c.getColumnIndexOrThrow("IdCategoria")),
                 c.getString(c.getColumnIndexOrThrow("Talla")),

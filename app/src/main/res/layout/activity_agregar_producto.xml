@@ -249,6 +249,7 @@
             android:layout_width="155dp"
             android:layout_height="49dp"
             android:hint="00.0"
+            android:inputType="number"
             android:paddingVertical="0dp"
             android:textAlignment="textStart"
             tools:ignore="TouchTargetSizeCheck" />

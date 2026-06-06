@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import upn.edu.pe.inventariowh.ProductoAdapter;
 
 import androidx.appcompat.widget.SearchView;
 
@@ -31,14 +32,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_main);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
 
         Button btnAgregar = findViewById(R.id.button);
         btnAgregar.setOnClickListener(v -> {
@@ -55,14 +52,22 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNav.setOnItemSelectedListener(item -> {
 
-            if (item.getItemId() == R.id.nav_movimientos) {
+            int id = item.getItemId();
 
+            if (id == R.id.nav_inventario) {
+                // Ya estás en inventario (MainActivity)
+                return true;
+            }
+
+            else if (id == R.id.nav_movimientos) {
                 Intent intent = new Intent(MainActivity.this, MovimientoActivity.class);
                 startActivity(intent);
                 return true;
             }
 
-            return true;
+
+
+            return false;
         });
 
         actualizarLista("");
@@ -89,11 +94,13 @@ public class MainActivity extends AppCompatActivity {
 
         List<Producto> listaFiltrada = daoProducto.Filtrar(texto);
 
-        ArrayAdapter<Producto> adapter = new ArrayAdapter<>(
+       /* ArrayAdapter<Producto> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 listaFiltrada
-        );
+        );*/
+        ProductoAdapter adapter =
+                new ProductoAdapter(this, listaFiltrada);
 
         lvListar.setAdapter(adapter);
 

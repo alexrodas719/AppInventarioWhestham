@@ -11,7 +11,7 @@ public class OpenHelperDB extends SQLiteOpenHelper {
 
     String tabla_categoria ="CREATE TABLE Categoria(IdCategoria INTEGER PRIMARY KEY AUTOINCREMENT,Nombre VARCHAR(60) NOT NULL,Descripcion VARCHAR(200));";
 
-    String tabla_producto ="CREATE TABLE Producto(IdProducto INTEGER PRIMARY KEY AUTOINCREMENT,Nombre VARCHAR(60) NOT NULL,Foto VARCHAR(255)," +
+    String tabla_producto ="CREATE TABLE Producto(IdProducto INTEGER PRIMARY KEY AUTOINCREMENT,Nombre VARCHAR(60) NOT NULL,Foto BLOB," +
                     "SKU VARCHAR(200) NOT NULL UNIQUE,IdCategoria INTEGER NOT NULL,Talla VARCHAR(20)," +
                     "Color VARCHAR(30) NOT NULL,Stock INTEGER NOT NULL,PrecioCompra REAL NOT NULL,PrecioVenta REAL NOT NULL," +
                     "Descripcion VARCHAR(200),FOREIGN KEY(IdCategoria) REFERENCES Categoria(IdCategoria));";

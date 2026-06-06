@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -41,6 +43,27 @@ public class MovimientoActivity extends AppCompatActivity {
 
         dao = new DAOMovimientoInventario(this);
         daoProducto = new DAOProducto(this);
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+
+            int id = item.getItemId();
+
+            if (id == R.id.nav_movimientos) {
+                // YA ESTÁS AQUÍ
+                return true;
+            }
+
+            else if (id == R.id.nav_inventario) {
+                Intent intent = new Intent(MovimientoActivity.this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            }
+
+
+
+            return false;
+        });
 
         btnRealizarVenta.setOnClickListener(v ->
                 startActivity(new Intent(this, VentaActivity.class))
@@ -94,11 +117,13 @@ public class MovimientoActivity extends AppCompatActivity {
         txtVentasMes.setText("S/ " + mes);
         txtGanancia.setText("S/ " + ganancia);
 
-        lstMovimientos.setAdapter(
+     /*   lstMovimientos.setAdapter(
                 new ArrayAdapter<>(this,
                         android.R.layout.simple_list_item_1,
                         lista)
-        );
+        );*/
+        MovimientoAdapter adapter = new MovimientoAdapter(this, lista);
+        lstMovimientos.setAdapter(adapter);
     }
 
     @Override
