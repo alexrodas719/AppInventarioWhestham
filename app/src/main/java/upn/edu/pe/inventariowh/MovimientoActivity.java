@@ -50,7 +50,6 @@ public class MovimientoActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             if (id == R.id.nav_movimientos) {
-                // YA ESTÁS AQUÍ
                 return true;
             }
 
@@ -59,8 +58,6 @@ public class MovimientoActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
-
-
 
             return false;
         });

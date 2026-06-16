@@ -9,13 +9,14 @@
 
     <!-- FOTO -->
 
+    <!-- DATOS -->
+
     <ImageView
         android:id="@+id/imgProducto"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:contentDescription="imgLista"
         android:scaleType="centerCrop" />
-
-    <!-- DATOS -->
 
     <LinearLayout
         android:layout_width="0dp"
@@ -40,30 +41,31 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/txtSku"
+                android:id="@+id/txtColor"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/txtTalla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/txtStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/txtPrecio"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/subtitulosAccent" />
 
         <TextView
-            android:id="@+id/txtTalla"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/txtColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/txtStock"
+            android:id="@+id/txtSku"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -79,20 +81,20 @@
 
         <ImageButton
             android:id="@+id/btnEditar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:src="@android:drawable/ic_menu_edit"
-            app:tint="#0066FF"/>
+            app:tint="#0066FF" />
 
         <ImageButton
             android:id="@+id/btnEliminar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:src="@android:drawable/ic_menu_delete"
-            app:tint="#FF0000"/>
+            app:tint="#FF0000" />
 
     </LinearLayout>
 

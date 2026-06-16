@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/white"
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:scrollbars="vertical"
     tools:context=".AgregarProducto">
@@ -60,7 +60,7 @@
             android:contentDescription="@string/btn_retroceder"
             android:padding="12dp"
             android:src="@drawable/outline_arrow_back_ios_24"
-            app:tint="@color/black"
+            app:tint="@color/azul"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="8dp" />
 

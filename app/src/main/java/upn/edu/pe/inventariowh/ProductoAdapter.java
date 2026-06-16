@@ -19,7 +19,6 @@ import java.util.List;
 
 import upn.edu.pe.inventariowh.AccesoDatos.DAOProducto;
 import upn.edu.pe.inventariowh.Modelos.Producto;
-import upn.edu.pe.inventariowh.R;
 
 public class ProductoAdapter extends ArrayAdapter<Producto> {
 
@@ -37,14 +36,9 @@ public class ProductoAdapter extends ArrayAdapter<Producto> {
 
         LayoutInflater inflater = context.getLayoutInflater();
 
-        View item = inflater.inflate(
-                R.layout.item_producto,
-                null,
-                true
-        );
+        View item = inflater.inflate(R.layout.item_producto, null, true);
 
         ImageView img = item.findViewById(R.id.imgProducto);
-
         TextView nombre = item.findViewById(R.id.txtNombre);
         TextView sku = item.findViewById(R.id.txtSku);
         TextView talla = item.findViewById(R.id.txtTalla);
@@ -63,14 +57,13 @@ public class ProductoAdapter extends ArrayAdapter<Producto> {
 
         sku.setText("SKU: " + p.getSku());
 
-        talla.setText("Talla: " + p.getTalla());
+        talla.setText("Talla " + p.getTalla());
 
-        color.setText("Color: " + p.getColor());
+        color.setText("Color " + p.getColor());
 
         stock.setText("Stock: " + p.getStock());
 
-
-        precio.setText("Precio: S/ " + p.getPrecioVenta());
+        precio.setText("Precio S/ " + p.getPrecioVenta());
 
         byte[] foto = p.getFoto();
 
@@ -127,7 +120,7 @@ public class ProductoAdapter extends ArrayAdapter<Producto> {
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
                     .setTextColor(Color.BLUE);
 
-            //colore de texto y titulo
+            //Alertas para elimniacion
             TextView title = dialog.findViewById(
                     context.getResources().getIdentifier("alertTitle", "id", "android")
             );

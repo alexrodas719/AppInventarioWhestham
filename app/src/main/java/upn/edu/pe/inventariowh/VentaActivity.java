@@ -17,23 +17,23 @@ import upn.edu.pe.inventariowh.AccesoDatos.DAOVenta;
 import upn.edu.pe.inventariowh.Modelos.*;
 
 public class VentaActivity extends AppCompatActivity {
-
-    EditText txtCodigo, txtCantidad;
+    //variables para los campos de texto
+    EditText txtBuscar, txtCantidad;
     TextView txtProducto, txtStock, txtPrecio, txtTotal;
     Button btnBuscar, btnAgregar, btnRegistrarVenta;
     ListView lstCarrito;
 
+    //varibles de los objetos con los que tiene relacion el objeto VENTA
     DAOProducto daoProducto;
     DAOVenta daoVenta;
     DAODetalleVenta daoDetalle;
     DAOMovimientoInventario daoMovimiento;
 
+    //variables auxiliares para la lógica de la venta
     Producto productoActual;
-
+    //carritoo sera un objeto tipo ArrayList donde contenga en memoria los objetos DETALLEVENTA
     List<DetalleVenta> carrito = new ArrayList<>();
-
     ArrayAdapter<String> adapter;
-
     List<String> listaTexto = new ArrayList<>();
 
     @Override
@@ -41,22 +41,18 @@ public class VentaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venta);
 
-
-
-        txtCodigo = findViewById(R.id.txtCodigo);
+        //Referenciar variables a sus componentes en pantalla
+        txtBuscar = findViewById(R.id.txtbuscadorVenta);
         txtCantidad = findViewById(R.id.txtCantidad);
-
         txtProducto = findViewById(R.id.txtProducto);
         txtStock = findViewById(R.id.txtStock);
         txtPrecio = findViewById(R.id.txtPrecio);
         txtTotal = findViewById(R.id.txtTotal);
-
         btnBuscar = findViewById(R.id.btnBuscar);
         btnAgregar = findViewById(R.id.btnAgregar);
         btnRegistrarVenta = findViewById(R.id.btnRegistrarVenta);
 
         lstCarrito = findViewById(R.id.lstCarrito);
-
         daoProducto = new DAOProducto(this);
         daoVenta = new DAOVenta(this);
         daoDetalle = new DAODetalleVenta(this);
@@ -69,36 +65,27 @@ public class VentaActivity extends AppCompatActivity {
         btnAgregar.setOnClickListener(v -> agregarCarrito());
         btnRegistrarVenta.setOnClickListener(v -> registrarVenta());
 
+        //eliminar del carrito con click largo
+//        lstCarrito.setOnItemLongClickListener((parent, view, position, id) -> {
+//            carrito.remove(position);
+//            listaTexto.remove(position);
+//            adapter.notifyDataSetChanged();
+//            actualizarTotal();
+//            Toast.makeText(this, "Producto eliminado del carrito", Toast.LENGTH_SHORT).show();
+//            return true;
+//        });
+
         actualizarTotal();
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
-
-        bottomNav.setOnItemSelectedListener(item -> {
-
-            int id = item.getItemId();
-
-            if (id == R.id.nav_movimientos) {
-                startActivity(new Intent(VentaActivity.this, MovimientoActivity.class));
-                return true;
-            }
-
-            if (id == R.id.nav_inventario) {
-                startActivity(new Intent(VentaActivity.this, MainActivity.class));
-                return true;
-            }
-
-            return false;
-        });
     }
-
-
+    //debe buscar por nombre o sku
     private void buscarProducto() {
 
-        String codigo = txtCodigo.getText().toString();
+        if (txtBuscar.getText().toString().isEmpty()) {
+            return;
+        }
 
-        if (codigo.isEmpty()) return;
-
-        List<Producto> lista = daoProducto.Filtrar(codigo);
+        List<Producto> lista = daoProducto.Filtrar(txtBuscar.getText().toString());
 
         if (!lista.isEmpty()) {
             productoActual = lista.get(0);
@@ -112,34 +99,34 @@ public class VentaActivity extends AppCompatActivity {
     }
 
     private void agregarCarrito() {
-
-        if (productoActual == null) {
-            Toast.makeText(this, "Busca un producto primero", Toast.LENGTH_SHORT).show();
+        if (!Validar()) {
             return;
         }
-
         int cantidad = Integer.parseInt(txtCantidad.getText().toString());
-
-        if (cantidad > productoActual.getStock()) {
-            Toast.makeText(this, "Stock insuficiente", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         double subtotal = cantidad * productoActual.getPrecioVenta();
 
-        DetalleVenta d = new DetalleVenta();
-        d.setIdProducto(productoActual.getIdProducto());
-        d.setCantidad(cantidad);
-        d.setPrecioUnitario(productoActual.getPrecioVenta());
-        d.setSubtotal(subtotal);
+        DetalleVenta dventa = new DetalleVenta();
+        dventa.setIdProducto(productoActual.getIdProducto());
+        dventa.setCantidad(cantidad);
+        dventa.setPrecioUnitario(productoActual.getPrecioVenta());
+        dventa.setSubtotal(subtotal);
 
-        carrito.add(d);
+        carrito.add(dventa);
 
         listaTexto.add(productoActual.getNombre() + " x" + cantidad + " = S/ " + subtotal);
 
         adapter.notifyDataSetChanged();
 
         actualizarTotal();
+
+        // Limpiar campos después de agregar
+        txtBuscar.setText("");
+        txtCantidad.setText("");
+        txtProducto.setText("Producto: ");
+        txtStock.setText("Stock: ");
+        txtPrecio.setText("Precio: S/ 0.00");
+        productoActual = null;
+        txtBuscar.requestFocus();
     }
 
     private void actualizarTotal() {
@@ -182,18 +169,15 @@ public class VentaActivity extends AppCompatActivity {
                 d.setIdVenta((int) idVenta);
                 daoDetalle.Insertar(d);
 
-                // 🔥 1. BUSCAR PRODUCTO ACTUALIZADO
                 Producto p = daoProducto.Buscar(d.getIdProducto());
 
                 if (p != null) {
 
                     int nuevoStock = p.getStock() - d.getCantidad();
 
-                    // 🔥 2. ACTUALIZAR STOCK EN BD
                     daoProducto.ActualizarStock(p.getIdProducto(), nuevoStock);
                 }
 
-                // 🔥 MOVIMIENTO INVENTARIO
                 MovimientoInventario m = new MovimientoInventario();
                 m.setCodigo("MOV-" + System.currentTimeMillis());
                 m.setTipo("SALIDA");
@@ -215,4 +199,27 @@ public class VentaActivity extends AppCompatActivity {
             actualizarTotal();
         }
     }
+
+    private boolean Validar() {
+        if (productoActual == null) {
+            Toast.makeText(this, "Busca un producto primero", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (txtCantidad.getText().toString().trim().isEmpty()) {
+            Toast.makeText(this, "Ingrese una cantidad", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        int cantidad = Integer.parseInt(txtCantidad.getText().toString());
+        if (cantidad <= 0) {
+            Toast.makeText(this, "La cantidad debe ser mayor a 0", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (cantidad > productoActual.getStock()) {
+            Toast.makeText(this, "Stock insuficiente", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
 }
