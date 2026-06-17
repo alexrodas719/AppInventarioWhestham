@@ -2,25 +2,54 @@ package upn.edu.pe.inventariowh.Red;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import upn.edu.pe.inventariowh.Modelos.ProductoAPI;
 import upn.edu.pe.inventariowh.Modelos.Proveedor;
+import upn.edu.pe.inventariowh.Modelos.Venta;
 
 
 public interface ServicioAPI {
-    @GET("Proveedor")
-    Call<List<Proveedor>>GetProveedores();
+    // --- PROVEEDORES ---
+    @GET("Proveedores")
+    Call<List<Proveedor>> GetProveedores();
+
     @Multipart
-    @POST("Proveedor")
+    @POST("Proveedores")
     Call<Proveedor> PostProveedor(
-            @Part("Nombre") RequestBody nombre,
+            @Part("RazonSocial") RequestBody RazonSocial,
             @Part("Telefono") RequestBody telefono,
             @Part("Direccion") RequestBody direccion,
             @Part("Latitud") RequestBody latitud,
             @Part("Longitud") RequestBody longitud
     );
+
+    // --- PRODUCTOS ---
+    @GET("Producto")
+    Call<List<ProductoAPI>> GetProductos();
+
+    @Multipart
+    @POST("Producto")
+    Call<ProductoAPI> PostProducto(
+            @Part("Nombre") RequestBody Nombre,
+            @Part("Foto") RequestBody Foto,
+            @Part("Ruta") RequestBody Ruta,
+            @Part("SKU") RequestBody SKU,
+            @Part("IdCategoria") RequestBody IdCategoria,
+            @Part("Talla") RequestBody Talla,
+            @Part("Color") RequestBody Color,
+            @Part("Stock") RequestBody Stock,
+            @Part("PrecioCompra") RequestBody PrecioCompra,
+            @Part("PrecioVenta") RequestBody PrecioVenta,
+            @Part("Descripcion") RequestBody Descripcion,
+            @Part MultipartBody.Part Archivo // El nombre debe coincidir con la API
+    );
+    @POST("api/Ventas")
+    Call<Venta> PostVenta(@Body Venta venta);
 }

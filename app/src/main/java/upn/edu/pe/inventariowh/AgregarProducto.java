@@ -1,5 +1,6 @@
 package upn.edu.pe.inventariowh;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
@@ -26,10 +27,17 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.ByteArrayOutputStream;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import upn.edu.pe.inventariowh.AccesoDatos.DAOCategoria;
-import upn.edu.pe.inventariowh.AccesoDatos.DAOProducto;
 import upn.edu.pe.inventariowh.Modelos.Categoria;
-import upn.edu.pe.inventariowh.Modelos.Producto;
+import upn.edu.pe.inventariowh.Modelos.ProductoAPI;
+import upn.edu.pe.inventariowh.Red.RetrofitCliente;
+import upn.edu.pe.inventariowh.Red.ServicioAPI;
 
 public class AgregarProducto extends AppCompatActivity {
     //variables para los componentes visuales
@@ -103,49 +111,72 @@ public class AgregarProducto extends AppCompatActivity {
         String nombreCategoria = autoCompleteCategoria.getText().toString();
         String nombreProducto = textInputNombre.getText().toString().trim();
         String SKU = textInputSKU.getText().toString().trim();
+        int stock = Integer.parseInt(textInputStock.getText().toString().trim());
+        double precioCompra = Double.parseDouble(textInputPrecioCompra.getText().toString().trim());
+        double precioVenta = Double.parseDouble(textInputPrecioVenta.getText().toString().trim());
         String descripcion = textInputDescripcion.getText().toString().trim();
 
-        // Conversión de String a int y double
-        try {
-            int stock = Integer.parseInt(textInputStock.getText().toString().trim());
-            double precioCompra = Double.parseDouble(textInputPrecioCompra.getText().toString().trim());
-            double precioVenta = Double.parseDouble(textInputPrecioVenta.getText().toString().trim());
-
-            // 1. Obtener el ID de la categoría seleccionada
-            DAOCategoria daoCategoria = new DAOCategoria(this);
-            Categoria oC = daoCategoria.BuscarPorNombre(nombreCategoria);
-            
-            int idCategoria = 0;
-            if (oC != null) {
-                idCategoria = oC.getIdCategoria();
-            }
-
-            // 2y. Crear objeto Producto usando el constructor vacío  setters
-            Producto oProducto = new Producto();
-            oProducto.setNombre(nombreProducto);
-            oProducto.setSku(SKU);
-            oProducto.setIdCategoria(idCategoria);
-            oProducto.setTalla(talla);
-            oProducto.setColor(color);
-            oProducto.setStock(stock);
-            oProducto.setPrecioCompra(precioCompra);
-            oProducto.setPrecioVenta(precioVenta);
-            oProducto.setDescripcion(descripcion);
-            oProducto.setFoto(bfoto);
-            // La foto puede quedar como null o vacía por ahora
-
-            // 3. Guardar en la base de datos
-            DAOProducto daoProducto = new DAOProducto(this);
-            if (daoProducto.Insertar(oProducto)) {
-                Toast.makeText(this, "Producto guardado correctamente", Toast.LENGTH_SHORT).show();
-                finish(); // Opcional: cerrar actividad al guardar
-            } else {
-                Toast.makeText(this, "Error: El SKU ya existe o faltan datos", Toast.LENGTH_LONG).show();
-            }
-
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Error en formato de números (Stock/Precio)", Toast.LENGTH_SHORT).show();        }
+        // 1. Obtener el ID de la categoría seleccionada
+        DAOCategoria daoCategoria = new DAOCategoria(this);
+        Categoria oC = daoCategoria.BuscarPorNombre(nombreCategoria);
+        int idCategoria = 0;
+        if (oC != null) {
+            idCategoria = oC.getIdCategoria();
+        }
+        ProductoAPI op = new ProductoAPI();
+            op.setNombre(nombreProducto);
+            op.setSKU(SKU);
+            op.setIdCategoria(idCategoria);
+            op.setTalla(talla);
+            op.setColor(color);
+            op.setStock(stock);
+            op.setPrecioCompra(precioCompra);
+            op.setPrecioVenta(precioVenta);
+            op.setDescripcion(descripcion);
+        EnviarPost(op);
     }
+
+    private void EnviarPost(ProductoAPI op) {
+        ProgressDialog oProgreso = new ProgressDialog(this);
+        oProgreso.setMessage("Registrando Producto ...");
+        oProgreso.setCancelable(false);
+        oProgreso.show();
+        RequestBody Nombre  = RequestBody.create(MediaType.parse("text/plain"), op.getNombre());
+        RequestBody Sku  = RequestBody.create(MediaType.parse("text/plain"), op.getSKU());
+        RequestBody IdCategoria  = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(op.getIdCategoria()));
+        RequestBody Talla = RequestBody.create(MediaType.parse("text/plain"), op.getTalla());
+        RequestBody Color = RequestBody.create(MediaType.parse("text/plain"), op.getColor());
+        RequestBody Stock = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(op.getStock()));
+        RequestBody PrecioCompra = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(op.getPrecioCompra()));
+        RequestBody PrecioVenta = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(op.getPrecioVenta()));
+        RequestBody Descripcion = RequestBody.create(MediaType.parse("text/plain"), op.getDescripcion());
+        RequestBody fotoPart=RequestBody.create(MediaType.parse("text/plain"),"no");
+        RequestBody rutaPart=RequestBody.create(MediaType.parse("text/plain"),"no");
+        // Creamos la parte del archivo (la imagen real)
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpeg"), bfoto);
+        MultipartBody.Part archivoFisico = MultipartBody.Part.createFormData("Archivo", "producto.jpg", requestFile);
+
+        ServicioAPI servicio = RetrofitCliente.getCliente().create(ServicioAPI.class);
+        Call<ProductoAPI> call =servicio.PostProducto(Nombre,fotoPart,rutaPart,Sku,IdCategoria,Talla,Color,Stock,PrecioCompra,PrecioVenta,Descripcion,archivoFisico);
+
+        // EJECUTAR LA LLAMADA
+        call.enqueue(new Callback<ProductoAPI>() {
+            @Override
+            public void onResponse(Call<ProductoAPI> call, Response<ProductoAPI> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(AgregarProducto.this, "Guardado en API correctamente", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AgregarProducto.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductoAPI> call, Throwable t) {
+                Toast.makeText(AgregarProducto.this, "Falla: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void AddImage(){
         Intent oIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         oIntent.setType("image/*");
@@ -192,6 +223,7 @@ public class AgregarProducto extends AppCompatActivity {
             textInputPrecioVenta.setError("Precio requerido");
             esValido = false;
         }
+
         //validar precio de venta mayor a precio de compra
         if (!textInputPrecioCompra.getText().toString().trim().isEmpty() &&
             !textInputPrecioVenta.getText().toString().trim().isEmpty()) {
@@ -201,6 +233,10 @@ public class AgregarProducto extends AppCompatActivity {
                 textInputPrecioVenta.setError("El precio de venta debe ser mayor al de compra");
                 esValido = false;
             }
+        }
+        if(bfoto==null){
+            Toast.makeText(this, "Debe seleccionar una imagen", Toast.LENGTH_SHORT).show();
+            return true;
         }
         return esValido;
     }

@@ -65,7 +65,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre del Proveedor">
+            android:hint="Razón social o Nombre del Proveedor">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNombreProveedor"

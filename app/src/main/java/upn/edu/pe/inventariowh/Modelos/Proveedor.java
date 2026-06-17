@@ -2,7 +2,7 @@ package upn.edu.pe.inventariowh.Modelos;
 
 public class Proveedor {
     private int idProveedor;
-    private String nombre;
+    private String RazonSocial;
     private String telefono;
     private String direccion;
     private double latitud;
@@ -11,9 +11,9 @@ public class Proveedor {
     public Proveedor() {
     }
 
-    public Proveedor( String nombre, String telefono, String direccion, double latitud, double longitud) {
+    public Proveedor( String RazonSocial, String telefono, String direccion, double latitud, double longitud) {
 
-        this.nombre = nombre;
+        this.RazonSocial = RazonSocial;
         this.telefono = telefono;
         this.direccion = direccion;
         this.latitud = latitud;
@@ -28,12 +28,12 @@ public class Proveedor {
         this.idProveedor = idProveedor;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getRazonSocial() {
+        return RazonSocial;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setRazonSocial(String RazonSocial) {
+        this.RazonSocial = RazonSocial;
     }
 
     public String getTelefono() {
@@ -70,6 +70,6 @@ public class Proveedor {
 
     @Override
     public String toString() {
-        return nombre; // Útil para mostrar en Spinners o Listas
+        return RazonSocial; // Útil para mostrar en Spinners o Listas
     }
 }

@@ -5,20 +5,32 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import upn.edu.pe.inventariowh.AccesoDatos.DAOProducto;
 import upn.edu.pe.inventariowh.Modelos.Producto;
+import upn.edu.pe.inventariowh.Modelos.ProductoAPI;
+import upn.edu.pe.inventariowh.Red.RetrofitCliente;
+import upn.edu.pe.inventariowh.Red.ServicioAPI;
 
 public class MainActivity extends AppCompatActivity {
-    ListView lvListar;
-    DAOProducto daoProducto;
+    RecyclerView rvproductos;
+    private List<ProductoAPI> listaProductosServidor = new ArrayList<>();
+    private ProductoAdapter adapter;
     TextView lbContarProductos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +47,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        lvListar = findViewById(R.id.listviewProductos);
+        rvproductos = findViewById(R.id.rvProductos);
+        rvproductos.setLayoutManager(new LinearLayoutManager(this));
         lbContarProductos = findViewById(R.id.lbContarProductos);
-        daoProducto = new DAOProducto(this);
+
 
         //navegar a movimientos
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
@@ -60,30 +73,45 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
         actualizarLista("");
-        //configurar el buscador 
+
+        //CONFIGURAR EL BUSCADOR
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                actualizarLista(query);
+            public boolean onQueryTextSubmit(String consulta) {
+                actualizarLista(consulta);
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                actualizarLista(newText);
+            public boolean onQueryTextChange(String nuevoTexto) {
+                actualizarLista(nuevoTexto);
                 return false;
             }
         });
     }
-
+    // Adaptamos el metodo de filtrado para buscar en la lista descargada
     private void actualizarLista(String texto) {
-        List<Producto> listaFiltrada = daoProducto.Filtrar(texto);
-        ProductoAdapter adapter =
-                new ProductoAdapter(this, listaFiltrada);
-        lvListar.setAdapter(adapter);
+        if (listaProductosServidor == null || listaProductosServidor.isEmpty()) return;
 
-        // Actualizar el contador de productos
+        List<ProductoAPI> listaFiltrada = new ArrayList<>();
+
+        if (texto.isEmpty()) {
+            listaFiltrada.addAll(listaProductosServidor);
+        } else {
+            String textoMinuscula = texto.toLowerCase();
+            for (ProductoAPI p : listaProductosServidor) {
+                // Filtramos por nombre o SKU
+                if (p.getNombre().toLowerCase().contains(textoMinuscula) ||
+                        p.getSKU().toLowerCase().contains(textoMinuscula)) {
+                    listaFiltrada.add(p);
+                }
+            }
+        }
+
+        // Actualizamos el adaptador con la nueva lista filtrada
+        adapter = new ProductoAdapter(MainActivity.this, listaFiltrada);
+        rvproductos.setAdapter(adapter);
         lbContarProductos.setText(listaFiltrada.size() + " Productos");
     }
 
@@ -91,6 +119,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // Recargar la lista al volver de "Agregar Producto"
-        actualizarLista("");
+        obtenerProductosDelServidor();
+    }
+    private void obtenerProductosDelServidor() {
+        ServicioAPI servicio = RetrofitCliente.getCliente().create(ServicioAPI.class);
+        Call<List<ProductoAPI>> call = servicio.GetProductos();
+
+        call.enqueue(new Callback<List<ProductoAPI>>() {
+            @Override
+            public void onResponse(Call<List<ProductoAPI>> call, Response<List<ProductoAPI>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // 1. Guardamos la lista completa descargada
+                    listaProductosServidor = response.body();
+
+                    // 2. Actualizamos el RecyclerView
+                    adapter = new ProductoAdapter(MainActivity.this, listaProductosServidor);
+                    rvproductos.setAdapter(adapter);
+
+                    // 3. Actualizamos el texto
+                    lbContarProductos.setText(listaProductosServidor.size() + " Productos");
+                } else {
+                    Toast.makeText(MainActivity.this, "Error al obtener datos", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ProductoAPI>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Falla de red: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

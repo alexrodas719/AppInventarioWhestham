@@ -140,7 +140,7 @@ public class AddProveedor extends AppCompatActivity implements OnMapReadyCallbac
         oProgreso.setMessage("Registrando proveedor...");
         oProgreso.setCancelable(false);
         oProgreso.show();
-        RequestBody rbNombre = RequestBody.create(MediaType.parse("text/plain"), oP.getNombre());
+        RequestBody rbNombre = RequestBody.create(MediaType.parse("text/plain"), oP.getRazonSocial());
         RequestBody rbTelefono = RequestBody.create(MediaType.parse("text/plain"), oP.getTelefono());
         RequestBody rbDireccion = RequestBody.create(MediaType.parse("text/plain"), oP.getDireccion());
         // Convertimos el double a String para el RequestBody
