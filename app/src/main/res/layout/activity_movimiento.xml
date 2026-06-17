@@ -192,7 +192,7 @@
     <!-- BOTON -->
     <Button
         android:id="@+id/btnRealizarVenta"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/BotonInferior"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:backgroundTint="@color/azul"

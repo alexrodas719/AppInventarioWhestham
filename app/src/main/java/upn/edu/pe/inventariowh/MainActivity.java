@@ -2,17 +2,12 @@ package upn.edu.pe.inventariowh;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import androidx.appcompat.widget.SearchView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -48,11 +43,17 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
 
         bottomNav.setOnItemSelectedListener(item -> {
-
-            if (item.getItemId() == R.id.nav_movimientos) {
-
-                Intent intent = new Intent(MainActivity.this, MovimientoActivity.class);
-                startActivity(intent);
+            int id = item.getItemId();
+            if (id == R.id.nav_movimientos) {
+                Intent oIntent = new Intent(MainActivity.this, MovimientoActivity.class);
+                startActivity(oIntent);
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            else if ( id == R.id.nav_proveedores){
+                Intent oIntent = new Intent(MainActivity.this,ProveedorActivity.class);
+                startActivity(oIntent);
+                overridePendingTransition(0, 0);
                 return true;
             }
 

@@ -27,6 +27,7 @@ public class MovimientoActivity extends AppCompatActivity {
 
     DAOMovimientoInventario dao;
     DAOProducto daoProducto;
+    BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,8 @@ public class MovimientoActivity extends AppCompatActivity {
 
         dao = new DAOMovimientoInventario(this);
         daoProducto = new DAOProducto(this);
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
-
+        bottomNav = findViewById(R.id.bottomNavigationView);
+        bottomNav.setSelectedItemId(R.id.nav_movimientos);
         bottomNav.setOnItemSelectedListener(item -> {
 
             int id = item.getItemId();
@@ -52,10 +53,16 @@ public class MovimientoActivity extends AppCompatActivity {
             if (id == R.id.nav_movimientos) {
                 return true;
             }
-
             else if (id == R.id.nav_inventario) {
-                Intent intent = new Intent(MovimientoActivity.this, MainActivity.class);
-                startActivity(intent);
+                Intent oIntent = new Intent(MovimientoActivity.this,MainActivity.class);
+                startActivity(oIntent);
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            else if (id == R.id.nav_proveedores) {
+                Intent oIntent = new Intent(MovimientoActivity.this, ProveedorActivity.class);
+                startActivity(oIntent);
+                overridePendingTransition(0, 0);
                 return true;
             }
 

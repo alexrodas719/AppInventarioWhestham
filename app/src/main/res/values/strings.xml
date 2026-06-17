@@ -8,4 +8,6 @@
     <string name="btn_guardar" translatable="false">Guardar Producto</string>
     <string name="productos">0 Productos</string>
     <string name="NombreTienda">WESTHAM</string>
+    <string name="api_key">AIzaSyAiohZHfyXkUn3DjxugSJM7pmwXfSW2S6I</string>
+    <string name="lista_proveedores">Lista de Proveedores</string>
 </resources>
