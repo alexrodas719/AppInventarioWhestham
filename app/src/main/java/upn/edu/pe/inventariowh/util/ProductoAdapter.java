@@ -1,10 +1,8 @@
-package upn.edu.pe.inventariowh;
+package upn.edu.pe.inventariowh.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +21,9 @@ import java.util.List;
 
 
 import upn.edu.pe.inventariowh.AccesoDatos.DAOProducto;
+import upn.edu.pe.inventariowh.AgregarProducto;
 import upn.edu.pe.inventariowh.Modelos.ProductoAPI;
+import upn.edu.pe.inventariowh.R;
 
 public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder> {
 

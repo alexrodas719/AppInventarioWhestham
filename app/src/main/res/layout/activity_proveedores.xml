@@ -36,9 +36,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/lista_proveedores"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#1A237E"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.05"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -52,18 +58,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menulayout" />
 
-    <ListView
-        android:id="@+id/lvProveedores"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btAddProveedor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTituloProveedores"
-        tools:listitem="@android:layout/simple_list_item_1" />
-
     <Button
         android:id="@+id/btAddProveedor"
         android:layout_width="@dimen/BotonInferior"
@@ -74,5 +68,18 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProveedores"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@+id/btAddProveedor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTituloProveedores"
+        tools:listitem="@layout/item_proveedor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

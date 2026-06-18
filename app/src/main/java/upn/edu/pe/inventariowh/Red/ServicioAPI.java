@@ -6,10 +6,13 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import upn.edu.pe.inventariowh.Modelos.ProductoAPI;
 import upn.edu.pe.inventariowh.Modelos.Proveedor;
 import upn.edu.pe.inventariowh.Modelos.Venta;
@@ -22,6 +25,18 @@ public interface ServicioAPI {
 
     @POST("Proveedores")
     Call<Proveedor> PostProveedor(@Body Proveedor proveedor);
+
+
+    @PUT("Proveedores/{id}")
+    Call<Proveedor> PutProveedor(
+            @Path("id") int id,
+            @Body Proveedor proveedor
+    );
+
+    @DELETE("Proveedores/{id}")
+    Call<Void> DeleteProveedor(
+            @Path("id") int id
+    );
 
     // --- PRODUCTOS ---
     @GET("Producto")

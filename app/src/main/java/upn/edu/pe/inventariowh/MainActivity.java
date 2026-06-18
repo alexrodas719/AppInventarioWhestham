@@ -3,7 +3,6 @@ package upn.edu.pe.inventariowh;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +20,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import upn.edu.pe.inventariowh.AccesoDatos.DAOProducto;
-import upn.edu.pe.inventariowh.Modelos.Producto;
 import upn.edu.pe.inventariowh.Modelos.ProductoAPI;
 import upn.edu.pe.inventariowh.Red.RetrofitCliente;
 import upn.edu.pe.inventariowh.Red.ServicioAPI;
+import upn.edu.pe.inventariowh.util.ProductoAdapter;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView rvproductos;

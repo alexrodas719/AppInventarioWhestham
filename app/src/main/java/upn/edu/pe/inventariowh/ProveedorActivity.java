@@ -2,13 +2,13 @@ package upn.edu.pe.inventariowh;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -21,39 +21,45 @@ import retrofit2.Response;
 import upn.edu.pe.inventariowh.Modelos.Proveedor;
 import upn.edu.pe.inventariowh.Red.RetrofitCliente;
 import upn.edu.pe.inventariowh.Red.ServicioAPI;
+import upn.edu.pe.inventariowh.util.ProveedorAdapter;
 
 public class ProveedorActivity extends AppCompatActivity {
-    //variables para los elementos visuales
-    ListView lvProveedores;
+
+    // Elementos visuales
+    RecyclerView rvProveedores;
     Button btAddProveedor;
     BottomNavigationView bottomNavigationView;
 
-    // Declaramos el adaptador a nivel global para poder actualizarlo
-    ArrayAdapter<Proveedor> adapter;
+    ProveedorAdapter adaptador;
+
+    // Lista global que alimenta al adaptador de forma correcta
+    List<Proveedor> listaProveedores = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_proveedores);
-        
-        lvProveedores = findViewById(R.id.lvProveedores);
+
+        rvProveedores = findViewById(R.id.rvProveedores);
         btAddProveedor = findViewById(R.id.btAddProveedor);
-        btAddProveedor.setOnClickListener(v->{
+
+        btAddProveedor.setOnClickListener(v -> {
             Intent oIntent = new Intent(ProveedorActivity.this, AddProveedor.class);
             startActivity(oIntent);
         });
-        
-        // Cargar lista (Ejemplo con datos vacíos por ahora)
-        List<Proveedor> listaProveedores = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
-        lvProveedores.setAdapter(adapter);
+
+        rvProveedores.setLayoutManager(new LinearLayoutManager(this));
+
+        // Inicializamos el adaptador con la lista global
+        adaptador = new ProveedorAdapter(listaProveedores);
+        rvProveedores.setAdapter(adaptador);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.nav_proveedores);//actializa su icono al entrar a esta actividad
+        bottomNavigationView.setSelectedItemId(R.id.nav_proveedores);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_inventario) {
-                Intent oIntent = new Intent(ProveedorActivity.this,MainActivity.class);
+                Intent oIntent = new Intent(ProveedorActivity.this, MainActivity.class);
                 startActivity(oIntent);
                 overridePendingTransition(0, 0);
                 return true;
@@ -68,35 +74,38 @@ public class ProveedorActivity extends AppCompatActivity {
             return false;
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
-        // onResume se ejecuta al abrir la app Y al regresar de AddProveedor.
-        // Así nos aseguramos de siempre ver la lista más actualizada del servidor.
         cargarProveedoresDesdeServidor();
     }
 
     private void cargarProveedoresDesdeServidor() {
         ServicioAPI api = RetrofitCliente.getCliente().create(ServicioAPI.class);
 
-        // Ejecutamos la llamada GET
         api.GetProveedores().enqueue(new Callback<List<Proveedor>>() {
             @Override
-            public void onResponse(Call<List<Proveedor>> call, Response<List<Proveedor>> response) {
+            public void onResponse(@NonNull Call<List<Proveedor>> call, @NonNull Response<List<Proveedor>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Proveedor> listaProveedores = response.body();
+                    // Guardamos la respuesta con un nombre diferente para evitar conflictos
+                    List<Proveedor> datosServidor = response.body();
 
-                    // Limpiamos la lista anterior y agregamos la nueva de golpe
-                    adapter.clear();
-                    adapter.addAll(listaProveedores);
-                    adapter.notifyDataSetChanged();
+                    // 1. Limpiamos la lista global que utiliza el RecyclerView
+                    listaProveedores.clear();
+
+                    // 2. Insertamos los datos nuevos que llegaron del servidor
+                    listaProveedores.addAll(datosServidor);
+
+                    // 3. Notificamos al adaptador para que pinte las tarjetas de inmediato
+                    adaptador.notifyDataSetChanged();
                 } else {
                     Toast.makeText(ProveedorActivity.this, "Error del servidor: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Proveedor>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Proveedor>> call, @NonNull Throwable t) {
                 Toast.makeText(ProveedorActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

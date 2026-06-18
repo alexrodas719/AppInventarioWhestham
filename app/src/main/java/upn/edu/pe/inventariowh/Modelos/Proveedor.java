@@ -27,20 +27,20 @@ public class Proveedor {
     public Proveedor() {
     }
 
-    public Proveedor( String RazonSocial, String ruc, String telefono, String direccion, double latitud, double longitud) {
-
-        this.RazonSocial = RazonSocial;
-        this.ruc= ruc;
+    public Proveedor(int idProveedor, String razonSocial, String ruc, String telefono, String direccion, double latitud, double longitud) {
+        this.idProveedor = idProveedor;
+        RazonSocial = razonSocial;
+        this.ruc = ruc;
         this.telefono = telefono;
         this.direccion = direccion;
         this.latitud = latitud;
         this.longitud = longitud;
     }
 
-    // Getters y Setters
     public int getIdProveedor() {
         return idProveedor;
     }
+
     public void setIdProveedor(int idProveedor) {
         this.idProveedor = idProveedor;
     }
@@ -49,8 +49,8 @@ public class Proveedor {
         return RazonSocial;
     }
 
-    public void setRazonSocial(String RazonSocial) {
-        this.RazonSocial = RazonSocial;
+    public void setRazonSocial(String razonSocial) {
+        RazonSocial = razonSocial;
     }
 
     public String getRuc() {
@@ -91,10 +91,5 @@ public class Proveedor {
 
     public void setLongitud(double longitud) {
         this.longitud = longitud;
-    }
-
-    @Override
-    public String toString() {
-        return RazonSocial; // Útil para mostrar en Spinners o Listas
     }
 }

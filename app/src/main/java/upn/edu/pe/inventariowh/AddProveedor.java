@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -25,6 +26,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -33,6 +37,7 @@ import retrofit2.Response;
 import upn.edu.pe.inventariowh.Modelos.Proveedor;
 import upn.edu.pe.inventariowh.Red.RetrofitCliente;
 import upn.edu.pe.inventariowh.Red.ServicioAPI;
+import upn.edu.pe.inventariowh.util.ProveedorAdapter;
 
 public class AddProveedor extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
@@ -41,6 +46,9 @@ public class AddProveedor extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap oMapa;
     private FusedLocationProviderClient LeerGPSCliente;
     Button btnUbicacionActual;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,31 +81,105 @@ public class AddProveedor extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
     private void getUbicacionActual() {
-        if(ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)!=
-                PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new
-                    String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},10);
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                    },
+                    10);
+
             return;
         }
-        LeerGPSCliente.getLastLocation().addOnSuccessListener(this,location
-                ->{
-            if(location!=null){
-                LatLng puntoActual = new LatLng(location.getLatitude(),location.getLongitude());
-                BitmapDescriptor icono = BitmapDescriptorFactory
-                        .defaultMarker(BitmapDescriptorFactory.HUE_AZURE);
-                oMapa.addMarker(new MarkerOptions()
-                        .position(puntoActual)
-                        .title("Ubicación Actual")
-                        .icon(icono));
-                oMapa.moveCamera(CameraUpdateFactory.newLatLngZoom(puntoActual,15f));
-                oMapa.setMyLocationEnabled(true);
-            }
-            else{
-                Toast.makeText(this, "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        LeerGPSCliente.getLastLocation()
+                .addOnSuccessListener(this, location -> {
+
+                    if (location != null) {
+
+                        double lat = location.getLatitude();
+                        double lon = location.getLongitude();
+
+                        // Llenar campos
+                        etLatitud.setText(String.valueOf(lat));
+                        etLongitud.setText(String.valueOf(lon));
+
+                        // Obtener dirección automáticamente
+                        try {
+
+                            android.location.Geocoder geocoder =
+                                    new android.location.Geocoder(
+                                            this,
+                                            java.util.Locale.getDefault());
+
+                            java.util.List<android.location.Address> direcciones =
+                                    geocoder.getFromLocation(
+                                            lat,
+                                            lon,
+                                            1);
+
+                            if (direcciones != null &&
+                                    !direcciones.isEmpty()) {
+
+                                String direccion =
+                                        direcciones.get(0)
+                                                .getAddressLine(0);
+
+                                etDireccion.setText(direccion);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        // Mostrar ubicación en mapa
+                        LatLng puntoActual =
+                                new LatLng(lat, lon);
+
+                        oMapa.clear();
+
+                        BitmapDescriptor icono =
+                                BitmapDescriptorFactory.defaultMarker(
+                                        BitmapDescriptorFactory.HUE_AZURE);
+
+                        oMapa.addMarker(
+                                new MarkerOptions()
+                                        .position(puntoActual)
+                                        .title("Ubicación Actual")
+                                        .icon(icono));
+
+                        oMapa.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                        puntoActual,
+                                        16f));
+
+                        oMapa.setMyLocationEnabled(true);
+
+                        Toast.makeText(
+                                this,
+                                "Ubicación obtenida correctamente",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                    } else {
+
+                        Toast.makeText(
+                                this,
+                                "No se pudo obtener la ubicación",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                });
     }
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -135,7 +217,7 @@ public class AddProveedor extends AppCompatActivity implements OnMapReadyCallbac
         double dLat = Double.parseDouble(lat);
         double dLon = Double.parseDouble(lon);
         // Aquí iría la lógica para guardar en la base de datos
-        Proveedor oP = new Proveedor(nombre, ruc, telefono, direccion, dLat, dLon);
+        Proveedor oP = new Proveedor(0,nombre, ruc, telefono, direccion, dLat, dLon);
         EnviarPost(oP);
     }
 
