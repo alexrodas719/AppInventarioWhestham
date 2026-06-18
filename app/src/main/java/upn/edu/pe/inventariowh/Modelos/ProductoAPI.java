@@ -1,21 +1,43 @@
 package upn.edu.pe.inventariowh.Modelos;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ProductoAPI
 {
+    @SerializedName("idProducto")
     private int IdProducto;
+    
+    @SerializedName("nombre")
     private String Nombre;
+    
+    @SerializedName("foto")
     private String Foto;
+    
+    @SerializedName("ruta")
     private String Ruta;
+    
+    @SerializedName("sku")
     private String SKU;
+    
+    @SerializedName("idCategoria")
     private int IdCategoria;
 
+    @SerializedName("talla")
     private String Talla;
+    
+    @SerializedName("color")
     private String Color;
 
+    @SerializedName("stock")
     private int Stock;
+    
+    @SerializedName("precioCompra")
     private double PrecioCompra;
+    
+    @SerializedName("precioVenta")
     private double PrecioVenta;
 
+    @SerializedName("descripcion")
     private String Descripcion;
     public ProductoAPI() {
     }

@@ -1,20 +1,28 @@
 package upn.edu.pe.inventariowh;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.*;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import upn.edu.pe.inventariowh.AccesoDatos.DAODetalleVenta;
-import upn.edu.pe.inventariowh.AccesoDatos.DAOProducto;
-import upn.edu.pe.inventariowh.AccesoDatos.DAOMovimientoInventario;
-import upn.edu.pe.inventariowh.AccesoDatos.DAOVenta;
-import upn.edu.pe.inventariowh.Modelos.*;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import upn.edu.pe.inventariowh.Modelos.DetalleVenta;
+import upn.edu.pe.inventariowh.Modelos.MovimientoInventario;
+import upn.edu.pe.inventariowh.Modelos.Producto;
+import upn.edu.pe.inventariowh.Modelos.ProductoAPI;
+import upn.edu.pe.inventariowh.Modelos.Venta;
+import upn.edu.pe.inventariowh.Red.RetrofitCliente;
+import upn.edu.pe.inventariowh.Red.ServicioAPI;
 
 public class VentaActivity extends AppCompatActivity {
     //variables para los campos de texto
@@ -24,17 +32,15 @@ public class VentaActivity extends AppCompatActivity {
     ListView lstCarrito;
 
     //varibles de los objetos con los que tiene relacion el objeto VENTA
-    DAOProducto daoProducto;
-    DAOVenta daoVenta;
-    DAODetalleVenta daoDetalle;
-    DAOMovimientoInventario daoMovimiento;
 
     //variables auxiliares para la lógica de la venta
-    Producto productoActual;
+    ProductoAPI productoActual;
     //carritoo sera un objeto tipo ArrayList donde contenga en memoria los objetos DETALLEVENTA
     List<DetalleVenta> carrito = new ArrayList<>();
     ArrayAdapter<String> adapter;
     List<String> listaTexto = new ArrayList<>();
+    // Catálogo descargado del servidor
+    List<ProductoAPI> catalogoServidor = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +59,6 @@ public class VentaActivity extends AppCompatActivity {
         btnRegistrarVenta = findViewById(R.id.btnRegistrarVenta);
 
         lstCarrito = findViewById(R.id.lstCarrito);
-        daoProducto = new DAOProducto(this);
-        daoVenta = new DAOVenta(this);
-        daoDetalle = new DAODetalleVenta(this);
-        daoMovimiento = new DAOMovimientoInventario(this);
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaTexto);
         lstCarrito.setAdapter(adapter);
@@ -76,25 +78,46 @@ public class VentaActivity extends AppCompatActivity {
 //        });
 
         actualizarTotal();
-
+        // Descargamos el catálogo al entrar
+        descargarCatalogo();
+    }
+    private void descargarCatalogo() {
+        ServicioAPI api = RetrofitCliente.getCliente().create(ServicioAPI.class);
+        api.GetProductos().enqueue(new Callback<List<ProductoAPI>>() {
+            @Override
+            public void onResponse(Call<List<ProductoAPI>> call, Response<List<ProductoAPI>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    catalogoServidor = response.body();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<ProductoAPI>> call, Throwable t) {
+                Toast.makeText(VentaActivity.this, "Error al cargar catálogo", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     //debe buscar por nombre o sku
     private void buscarProducto() {
 
-        if (txtBuscar.getText().toString().isEmpty()) {
-            return;
+        String query = txtBuscar.getText().toString().trim().toLowerCase();
+        if (query.isEmpty() || catalogoServidor.isEmpty()) return;
+
+        productoActual = null;
+
+        for (ProductoAPI p : catalogoServidor) {
+            // Asumiendo que tu clase Producto tiene getSku()
+            if (p.getNombre().toLowerCase().contains(query) || p.getSKU().toLowerCase().contains(query)) {
+                productoActual = p;
+                break;
+            }
         }
 
-        List<Producto> lista = daoProducto.Filtrar(txtBuscar.getText().toString());
-
-        if (!lista.isEmpty()) {
-            productoActual = lista.get(0);
-
+        if (productoActual != null) {
             txtProducto.setText("Producto: " + productoActual.getNombre());
             txtStock.setText("Stock: " + productoActual.getStock());
             txtPrecio.setText("Precio: S/ " + productoActual.getPrecioVenta());
         } else {
-            Toast.makeText(this, "No encontrado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No encontrado en el servidor", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -112,11 +135,8 @@ public class VentaActivity extends AppCompatActivity {
         dventa.setSubtotal(subtotal);
 
         carrito.add(dventa);
-
         listaTexto.add(productoActual.getNombre() + " x" + cantidad + " = S/ " + subtotal);
-
         adapter.notifyDataSetChanged();
-
         actualizarTotal();
 
         // Limpiar campos después de agregar
@@ -148,7 +168,6 @@ public class VentaActivity extends AppCompatActivity {
         }
 
         double total = 0;
-
         for (DetalleVenta d : carrito) {
             total += d.getSubtotal();
         }
@@ -159,45 +178,30 @@ public class VentaActivity extends AppCompatActivity {
         v.setSubtotal(total);
         v.setDescuento(0);
         v.setTotal(total);
+        v.setDetalles(carrito);
+        ServicioAPI api = RetrofitCliente.getCliente().create(ServicioAPI.class);
+        api.PostVenta(v).enqueue(new Callback<Venta>() {
+            @Override
+            public void onResponse(Call<Venta> call, Response<Venta> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(VentaActivity.this, "Venta registrada en la nube", Toast.LENGTH_SHORT).show();
+                    carrito.clear();
+                    listaTexto.clear();
+                    adapter.notifyDataSetChanged();
+                    actualizarTotal();
 
-        long idVenta = daoVenta.Insertar(v);
-
-        if (idVenta > 0) {
-
-            for (DetalleVenta d : carrito) {
-
-                d.setIdVenta((int) idVenta);
-                daoDetalle.Insertar(d);
-
-                Producto p = daoProducto.Buscar(d.getIdProducto());
-
-                if (p != null) {
-
-                    int nuevoStock = p.getStock() - d.getCantidad();
-
-                    daoProducto.ActualizarStock(p.getIdProducto(), nuevoStock);
+                    // Recargamos el catálogo para obtener el nuevo stock descontado por C#
+                    descargarCatalogo();
+                } else {
+                    Toast.makeText(VentaActivity.this, "Error al registrar: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
-
-                MovimientoInventario m = new MovimientoInventario();
-                m.setCodigo("MOV-" + System.currentTimeMillis());
-                m.setTipo("SALIDA");
-                m.setIdProducto(d.getIdProducto());
-                m.setCantidad(d.getCantidad());
-                m.setFecha(System.currentTimeMillis());
-                m.setMonto(d.getSubtotal());
-                m.setObservacion("Venta");
-
-                daoMovimiento.Insertar(m);
             }
 
-            Toast.makeText(this, "Venta registrada", Toast.LENGTH_SHORT).show();
-
-            carrito.clear();
-            listaTexto.clear();
-            adapter.notifyDataSetChanged();
-
-            actualizarTotal();
-        }
+            @Override
+            public void onFailure(Call<Venta> call, Throwable t) {
+                Toast.makeText(VentaActivity.this, "Fallo de conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean Validar() {

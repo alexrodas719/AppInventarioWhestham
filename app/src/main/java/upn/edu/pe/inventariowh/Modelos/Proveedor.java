@@ -1,19 +1,36 @@
 package upn.edu.pe.inventariowh.Modelos;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Proveedor {
+    @SerializedName(value = "idProveedor", alternate = {"IdProveedor"})
     private int idProveedor;
+
+    @SerializedName(value = "razonSocial", alternate = {"RazonSocial"})
     private String RazonSocial;
+
+    @SerializedName(value = "ruc", alternate = {"Ruc", "RUC"})
+    private String ruc;
+
+    @SerializedName(value = "telefono", alternate = {"Telefono"})
     private String telefono;
+
+    @SerializedName(value = "direccion", alternate = {"Direccion"})
     private String direccion;
+
+    @SerializedName(value = "latitud", alternate = {"Latitud"})
     private double latitud;
+
+    @SerializedName(value = "longitud", alternate = {"Longitud"})
     private double longitud;
 
     public Proveedor() {
     }
 
-    public Proveedor( String RazonSocial, String telefono, String direccion, double latitud, double longitud) {
+    public Proveedor( String RazonSocial, String ruc, String telefono, String direccion, double latitud, double longitud) {
 
         this.RazonSocial = RazonSocial;
+        this.ruc= ruc;
         this.telefono = telefono;
         this.direccion = direccion;
         this.latitud = latitud;
@@ -34,6 +51,14 @@ public class Proveedor {
 
     public void setRazonSocial(String RazonSocial) {
         this.RazonSocial = RazonSocial;
+    }
+
+    public String getRuc() {
+        return ruc;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
     }
 
     public String getTelefono() {

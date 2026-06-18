@@ -1,6 +1,7 @@
 package upn.edu.pe.inventariowh;
 
-import android.app.ProgressDialog;
+import androidx.appcompat.app.AlertDialog;
+import android.widget.ProgressBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
@@ -137,9 +138,14 @@ public class AgregarProducto extends AppCompatActivity {
     }
 
     private void EnviarPost(ProductoAPI op) {
-        ProgressDialog oProgreso = new ProgressDialog(this);
-        oProgreso.setMessage("Registrando Producto ...");
-        oProgreso.setCancelable(false);
+        ProgressBar progressBar = new ProgressBar(this);
+        progressBar.setPadding(40, 40, 40, 40);
+
+        AlertDialog oProgreso = new AlertDialog.Builder(this)
+                .setTitle("Registrando Producto...")
+                .setView(progressBar)
+                .setCancelable(false)
+                .create();
         oProgreso.show();
         RequestBody Nombre  = RequestBody.create(MediaType.parse("text/plain"), op.getNombre());
         RequestBody Sku  = RequestBody.create(MediaType.parse("text/plain"), op.getSKU());
@@ -163,15 +169,18 @@ public class AgregarProducto extends AppCompatActivity {
         call.enqueue(new Callback<ProductoAPI>() {
             @Override
             public void onResponse(Call<ProductoAPI> call, Response<ProductoAPI> response) {
+                oProgreso.dismiss();
                 if (response.isSuccessful()) {
                     Toast.makeText(AgregarProducto.this, "Guardado en API correctamente", Toast.LENGTH_SHORT).show();
-                } else {
+                    finish();
+               } else {
                     Toast.makeText(AgregarProducto.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ProductoAPI> call, Throwable t) {
+                oProgreso.dismiss();
                 Toast.makeText(AgregarProducto.this, "Falla: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

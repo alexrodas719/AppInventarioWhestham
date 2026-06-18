@@ -42,7 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_margin="12dp"
-        android:hint="Código o SKU"
+        android:hint="Nombre o SKU"
         app:layout_constraintEnd_toStartOf="@id/btnBuscar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtTitulo" />
@@ -92,7 +92,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_margin="12dp"
-        android:hint="Cantidad"
+        android:hint="Digita la Cantidad"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

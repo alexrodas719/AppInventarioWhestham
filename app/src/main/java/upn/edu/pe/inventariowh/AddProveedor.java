@@ -1,9 +1,11 @@
 package upn.edu.pe.inventariowh;
 
+import androidx.appcompat.app.AlertDialog;
+import android.widget.ProgressBar;
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -34,7 +36,7 @@ import upn.edu.pe.inventariowh.Red.ServicioAPI;
 
 public class AddProveedor extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
-    private TextInputEditText etNombre, etTelefono, etDireccion, etLatitud, etLongitud;
+    private TextInputEditText etNombre, etRuc, etTelefono, etDireccion, etLatitud, etLongitud;
     private FloatingActionButton fabSave;
     private GoogleMap oMapa;
     private FusedLocationProviderClient LeerGPSCliente;
@@ -47,6 +49,7 @@ public class AddProveedor extends AppCompatActivity implements OnMapReadyCallbac
 
         // Inicializar vistas
         etNombre = findViewById(R.id.etNombreProveedor);
+        etRuc = findViewById(R.id.etRucProveedor);
         etTelefono = findViewById(R.id.etTelefonoProveedor);
         etDireccion = findViewById(R.id.etDireccionProveedor);
         etLatitud = findViewById(R.id.etLatitud);
@@ -119,37 +122,36 @@ public class AddProveedor extends AppCompatActivity implements OnMapReadyCallbac
     }
     private void OnClickguardarProveedor() {
         String nombre = etNombre.getText().toString().trim();
+        String ruc = etRuc.getText().toString().trim();
         String telefono = etTelefono.getText().toString().trim();
         String direccion = etDireccion.getText().toString().trim();
         String lat = etLatitud.getText().toString().trim();
         String lon = etLongitud.getText().toString().trim();
         //validaciones en nombre y ubicacion
-        if (nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty() || lat.isEmpty() || lon.isEmpty()) {
-            Toast.makeText(this, "Por favor, completa el nombre y selecciona una ubicación", Toast.LENGTH_SHORT).show();
+        if (nombre.isEmpty() || ruc.isEmpty() || telefono.isEmpty() || direccion.isEmpty() || lat.isEmpty() || lon.isEmpty()) {
+            Toast.makeText(this, "Por favor, completa todos los campos y selecciona una ubicación", Toast.LENGTH_SHORT).show();
             return;
         }
         double dLat = Double.parseDouble(lat);
         double dLon = Double.parseDouble(lon);
         // Aquí iría la lógica para guardar en la base de datos
-        Proveedor oP = new Proveedor(nombre,telefono,direccion,dLat,dLon);
+        Proveedor oP = new Proveedor(nombre, ruc, telefono, direccion, dLat, dLon);
         EnviarPost(oP);
     }
 
     private void EnviarPost(Proveedor oP) {
-        ProgressDialog oProgreso = new ProgressDialog(this);
-        oProgreso.setMessage("Registrando proveedor...");
-        oProgreso.setCancelable(false);
+        ProgressBar progressBar = new ProgressBar(this);
+        progressBar.setPadding(40, 40, 40, 40);
+
+        AlertDialog oProgreso = new AlertDialog.Builder(this)
+                .setTitle("Registrando proveedor...")
+                .setView(progressBar)
+                .setCancelable(false)
+                .create();
         oProgreso.show();
-        RequestBody rbNombre = RequestBody.create(MediaType.parse("text/plain"), oP.getRazonSocial());
-        RequestBody rbTelefono = RequestBody.create(MediaType.parse("text/plain"), oP.getTelefono());
-        RequestBody rbDireccion = RequestBody.create(MediaType.parse("text/plain"), oP.getDireccion());
-        // Convertimos el double a String para el RequestBody
-        RequestBody rbLatitud = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(oP.getLatitud()));
-        RequestBody rbLongitud = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(oP.getLongitud()));
 
         ServicioAPI apiServicio = RetrofitCliente.getCliente().create(ServicioAPI.class);
-        Call<Proveedor> call = apiServicio.PostProveedor(rbNombre, rbTelefono, rbDireccion, rbLatitud, rbLongitud);
-        call.enqueue(new Callback<Proveedor>() {
+        apiServicio.PostProveedor(oP).enqueue(new Callback<Proveedor>() {
             @Override
             public void onResponse(Call<Proveedor> call, Response<Proveedor> response) {
                 oProgreso.dismiss();
@@ -157,7 +159,18 @@ public class AddProveedor extends AppCompatActivity implements OnMapReadyCallbac
                     Toast.makeText(AddProveedor.this, "Sincronizado con el servidor", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(AddProveedor.this, "Error al guardar: " + response.code(), Toast.LENGTH_SHORT).show();
+                    try {
+                        String errorExacto = response.errorBody().string();
+
+                        // ESTA ES LA LÍNEA NUEVA (Log.e en lugar de System.out)
+                        // Esto nos dirá el número real (ej: 400, 404, 415, 500)
+                        Log.e("ERROR_API", "CÓDIGO REAL: " + response.code() + " | MENSAJE: " + response.message());
+
+                        Toast.makeText(AddProveedor.this, "Error 400: Revisa el Logcat", Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        // Esto nos dirá el número real (ej: 400, 404, 415, 500)
+                        Log.e("ERROR_API", "CÓDIGO REAL: " + response.code() + " | MENSAJE: " + response.message());
+                    }
                 }
             }
 

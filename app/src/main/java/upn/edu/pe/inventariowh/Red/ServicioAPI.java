@@ -20,15 +20,8 @@ public interface ServicioAPI {
     @GET("Proveedores")
     Call<List<Proveedor>> GetProveedores();
 
-    @Multipart
     @POST("Proveedores")
-    Call<Proveedor> PostProveedor(
-            @Part("RazonSocial") RequestBody RazonSocial,
-            @Part("Telefono") RequestBody telefono,
-            @Part("Direccion") RequestBody direccion,
-            @Part("Latitud") RequestBody latitud,
-            @Part("Longitud") RequestBody longitud
-    );
+    Call<Proveedor> PostProveedor(@Body Proveedor proveedor);
 
     // --- PRODUCTOS ---
     @GET("Producto")
@@ -50,6 +43,6 @@ public interface ServicioAPI {
             @Part("Descripcion") RequestBody Descripcion,
             @Part MultipartBody.Part Archivo // El nombre debe coincidir con la API
     );
-    @POST("api/Ventas")
+    @POST("Ventas")
     Call<Venta> PostVenta(@Body Venta venta);
 }

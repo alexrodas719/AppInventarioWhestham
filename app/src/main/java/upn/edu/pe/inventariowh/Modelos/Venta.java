@@ -1,5 +1,7 @@
 package upn.edu.pe.inventariowh.Modelos;
 
+import java.util.List;
+
 public class Venta {
     private int idVenta;
     private String codigo;
@@ -8,6 +10,7 @@ public class Venta {
     private double subtotal;
     private double descuento;
     private double total;
+    private List<DetalleVenta> detalles;
 
     public Venta() {
     }
@@ -67,5 +70,11 @@ public class Venta {
 
     public void setDescuento(double descuento) {
         this.descuento = descuento;
+    }
+    public List<DetalleVenta> getDetalles() {
+        return detalles;
+    }
+    public void setDetalles(List<DetalleVenta> detalles) {
+        this.detalles = detalles;
     }
 }
