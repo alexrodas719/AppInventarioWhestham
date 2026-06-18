@@ -4,7 +4,7 @@ public class DetalleVenta {
     private int idDetalleVenta;
 
     private int idVenta;
-    private int idProducto;
+    private int idProducto; 
 
     private int cantidad;
 

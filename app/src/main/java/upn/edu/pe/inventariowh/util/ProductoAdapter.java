@@ -48,7 +48,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         holder.nombre.setText(p.getNombre());
         holder.sku.setText("SKU: " + p.getSKU());
         holder.talla.setText("Talla " + p.getTalla());
-        holder.color.setText("Color " + p.getColor());
+        holder.color.setText("Color " + p.getColor()+",");
         holder.stock.setText("Stock: " + p.getStock());
         holder.precio.setText("Precio S/ " + p.getPrecioVenta());
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,8 +7,8 @@
     android:layout_marginVertical="8dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="8dp"
-    app:strokeWidth="1dp"
-    app:strokeColor="#E5E7EB">
+    app:strokeColor="#E5E7EB"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,13 +28,13 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@android:drawable/ic_menu_myplaces"
-                android:tint="@android:color/white"/>
+                android:tint="@android:color/white" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="12dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -45,7 +44,7 @@
                     android:text="Empresa Los Andes SAC"
                     android:textColor="@android:color/white"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvRucProveedor"
@@ -53,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:text="RUC: 20123456789"
                     android:textColor="#E3F2FD"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -73,7 +72,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@android:drawable/ic_menu_call"/>
+                    android:src="@android:drawable/ic_menu_call" />
 
                 <TextView
                     android:id="@+id/tvTelefonoProveedor"
@@ -82,7 +81,7 @@
                     android:layout_marginStart="8dp"
                     android:text="987654321"
                     android:textColor="#374151"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -94,7 +93,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@android:drawable/ic_dialog_map"/>
+                    android:src="@android:drawable/ic_dialog_map" />
 
                 <TextView
                     android:id="@+id/tvDireccionProveedor"
@@ -104,20 +103,20 @@
                     android:layout_weight="1"
                     android:text="Av. El Triunfo 456 - Cajamarca"
                     android:textColor="#6B7280"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="14dp"
-                android:background="#E5E7EB"/>
+                android:background="#E5E7EB" />
 
             <!-- FOOTER -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="3dp"
                 android:gravity="end"
                 android:orientation="horizontal">
 
@@ -125,7 +124,7 @@
                     android:id="@+id/btnEditar"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Editar"/>
+                    android:text="Editar" />
 
                 <Button
                     android:id="@+id/btnEliminar"
@@ -134,7 +133,7 @@
                     android:layout_marginStart="8dp"
                     android:backgroundTint="#D32F2F"
                     android:text="Eliminar"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
         </LinearLayout>
