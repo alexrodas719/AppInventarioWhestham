@@ -60,4 +60,18 @@ public interface ServicioAPI {
     );
     @POST("Ventas")
     Call<Venta> PostVenta(@Body Venta venta);
+
+    @GET("Ventas")
+    Call<List<Venta>> GetVentas();
+    @PUT("Ventas/{id}")
+    Call<Venta> PutVenta(
+            @Path("id") int id,
+            @Body Venta venta
+    );
+
+    @DELETE("Ventas/{id}")
+    Call<Void> DeleteVenta(
+            @Path("id") int id
+    );
+
 }

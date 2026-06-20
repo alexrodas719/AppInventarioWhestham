@@ -31,8 +31,6 @@ public class VentaActivity extends AppCompatActivity {
     Button btnBuscar, btnAgregar, btnRegistrarVenta;
     ListView lstCarrito;
 
-    //varibles de los objetos con los que tiene relacion el objeto VENTA
-
     //variables auxiliares para la lógica de la venta
     ProductoAPI productoActual;
     //carritoo sera un objeto tipo ArrayList donde contenga en memoria los objetos DETALLEVENTA

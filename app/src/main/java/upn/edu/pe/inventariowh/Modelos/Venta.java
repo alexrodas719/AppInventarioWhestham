@@ -1,15 +1,24 @@
 package upn.edu.pe.inventariowh.Modelos;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Venta {
+    @SerializedName("idVenta")
     private int idVenta;
+    @SerializedName("codigo")
     private String codigo;
+    @SerializedName("fecha")
     private long fecha;
 
+    @SerializedName("subtotal")
     private double subtotal;
+    @SerializedName("descuento")
     private double descuento;
+    @SerializedName("total")
     private double total;
+    @SerializedName("detalles")
     private List<DetalleVenta> detalles;
 
     public Venta() {
