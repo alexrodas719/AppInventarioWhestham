@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import upn.edu.pe.inventariowh.Modelos.DetalleVenta;
 import upn.edu.pe.inventariowh.Modelos.MovimientoInventario;
 import upn.edu.pe.inventariowh.Modelos.Venta;
 import upn.edu.pe.inventariowh.Red.RetrofitCliente;
@@ -137,6 +138,14 @@ public class MovimientoActivity extends AppCompatActivity {
             mInv.setMonto(v.getTotal());
             mInv.setFecha(v.getFecha());
             mInv.setObservacion("Venta realizada desde API");
+            int sumaCantidades = 0;
+            if (v.getDetalles() != null) {
+                for (DetalleVenta de : v.getDetalles()) {
+                    sumaCantidades += de.getCantidad();
+                }
+            }
+
+            mInv.setCantidad(sumaCantidades);
             listaMovimientos.add(mInv);
         }
 
