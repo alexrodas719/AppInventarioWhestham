@@ -40,15 +40,11 @@ import upn.edu.pe.inventariowh.Red.ServicioAPI;
 import upn.edu.pe.inventariowh.util.ProveedorAdapter;
 
 public class AddProveedor extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
-
     private TextInputEditText etNombre, etRuc, etTelefono, etDireccion, etLatitud, etLongitud;
     private FloatingActionButton fabSave;
     private GoogleMap oMapa;
     private FusedLocationProviderClient LeerGPSCliente;
     Button btnUbicacionActual;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

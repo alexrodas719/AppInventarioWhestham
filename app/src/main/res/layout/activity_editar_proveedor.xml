@@ -26,9 +26,7 @@
             android:contentDescription="@string/btn_retroceder"
             android:padding="12dp"
             android:src="@drawable/outline_arrow_back_ios_24"
-            app:tint="@color/azul"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="8dp" />
+            app:tint="@color/azul" />
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -36,22 +34,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/registrar_proveedorPV"
-            tools:layout_editor_absoluteX="127dp"
-            tools:layout_editor_absoluteY="21dp" />
+            android:text="@string/tituloeditar_proveedoredit" />
 
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabSaveProveedor"
+        android:id="@+id/fabUpdateProveedor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:contentDescription="@string/guardar_proveedorPV"
+        android:contentDescription="@string/actualizar_proveedoredit"
         android:src="@android:drawable/ic_menu_save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="ClassNameCheck" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -66,10 +61,10 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/raz_nom_proveedor">
+            android:hint="@string/raz_n_social_o_nombre_del_proveedoredit">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNombreProveedor"
+                android:id="@+id/etNombreEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName" />
@@ -79,10 +74,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="@string/rucPV">
+            android:hint="@string/rucedit">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etRucProveedor"
+                android:id="@+id/etRucEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
@@ -92,10 +87,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="@string/telefonoPV">
+            android:hint="@string/tel_fonoedit">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etTelefonoProveedor"
+                android:id="@+id/etTelefonoEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone" />
@@ -105,10 +100,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="@string/direccionPV">
+            android:hint="@string/direcci_nedit">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etDireccionProveedor"
+                android:id="@+id/etDireccionEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPostalAddress" />
@@ -127,14 +122,14 @@
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etLatitud"
+                    android:id="@+id/etLatitudEdit"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:enabled="false"
-                    android:hint="@string/latitudPV"
+                    android:hint="@string/latitudedit"
                     android:inputType="numberDecimal"
                     android:paddingVertical="0dp"
-                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                    tools:ignore="TouchTargetSizeCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Space
@@ -148,41 +143,33 @@
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etLongitud"
+                    android:id="@+id/etLongitudEdit"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:enabled="false"
-                    android:hint="@string/longituPV"
+                    android:hint="@string/longitudedit"
                     android:inputType="numberDecimal"
-                    android:paddingVertical="0dp"
-                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                    android:paddingVertical="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/mapContainer"
+            android:id="@+id/mapContainerEdit"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="291dp"
-            android:layout_marginTop="8dp"
-            tools:context=".AddProveedorActivity" />
+            android:layout_height="250dp"
+            android:layout_marginTop="8dp" />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnUbicacion"
+        android:id="@+id/btnUbicacionEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/ubicacion_actualPV"
+        android:text="@string/ubicacion_actualbtEdit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

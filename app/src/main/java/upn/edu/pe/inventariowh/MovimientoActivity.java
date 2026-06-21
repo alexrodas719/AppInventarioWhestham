@@ -70,6 +70,12 @@ public class MovimientoActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 return true;
             }
+            else if (id == R.id.nav_configuracion) {
+                Intent oIntent = new Intent(MovimientoActivity.this, SettingsActivity.class);
+                startActivity(oIntent);
+                overridePendingTransition(0, 0);
+                return true;
+            }
 
             return false;
         });

@@ -70,6 +70,11 @@ public class ProveedorActivity extends AppCompatActivity {
                 startActivity(oIntent);
                 overridePendingTransition(0, 0);
                 return true;
+            } else if (id == R.id.nav_configuracion) {
+                Intent oIntent = new Intent(ProveedorActivity.this, SettingsActivity.class);
+                startActivity(oIntent);
+                overridePendingTransition(0, 0);
+                return true;
             }
             return false;
         });

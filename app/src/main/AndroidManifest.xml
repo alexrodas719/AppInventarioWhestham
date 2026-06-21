@@ -17,6 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InventarioWH">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditarProveedor"
+            android:exported="false" />
+        <activity
             android:name=".ProveedorActivity"
             android:exported="false" />
         <activity
@@ -27,6 +33,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key" />
 
+        <activity
+            android:name=".EditarProducto"
+            android:exported="false" />
         <activity
             android:name=".VentaActivity"
             android:exported="false" />

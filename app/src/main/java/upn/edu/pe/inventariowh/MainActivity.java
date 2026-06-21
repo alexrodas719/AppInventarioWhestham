@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         rvproductos.setLayoutManager(new LinearLayoutManager(this));
         lbContarProductos = findViewById(R.id.lbContarProductos);
 
-
         //navegar a movimientos
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
 
@@ -63,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
             }
             else if ( id == R.id.nav_proveedores){
                 Intent oIntent = new Intent(MainActivity.this,ProveedorActivity.class);
+                startActivity(oIntent);
+                overridePendingTransition(0, 0);
+                return true;
+            }
+            else if (id == R.id.nav_configuracion) {
+                Intent oIntent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(oIntent);
                 overridePendingTransition(0, 0);
                 return true;

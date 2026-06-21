@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Precio de venta"
+        android:text="@string/precio_de_venta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.682"
         app:layout_constraintStart_toEndOf="@+id/textView2"
@@ -38,7 +38,7 @@
             android:id="@+id/textInputDescripcion"
             android:layout_width="349dp"
             android:layout_height="60dp"
-            android:hint="Descripción"
+            android:hint="@string/descripci_n"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Agregar producto" />
+            android:text="@string/bt_agregar_producto" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/Standar"
         android:layout_marginTop="@dimen/Standar"
-        android:text="Nombre del producto"
+        android:text="@string/nombre_del_producto"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgFoto" />
 
@@ -101,7 +101,7 @@
             android:id="@+id/textInputNombre"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:hint="Nombre.."
+            android:hint="@string/nombre"
             android:paddingVertical="0dp"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/Standar"
         android:layout_marginTop="16dp"
-        android:text="Categoria"
+        android:text="@string/categoria"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
@@ -125,7 +125,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="237dp"
-        android:text="Stock"
+        android:text="@string/stock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +138,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="SKU"
+        android:text="@string/sku"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toEndOf="@+id/textView7"
@@ -161,7 +161,7 @@
             android:id="@+id/autoCompleteColor"
             android:layout_width="155dp"
             android:layout_height="49dp"
-            android:hint="Color"
+            android:hint="@string/color"
             android:inputType="none"
             android:paddingVertical="0dp"
             android:popupBackground="#D0ECFD"
@@ -186,7 +186,7 @@
             android:id="@+id/autoCompleteCategoria"
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:hint="Seleccionar una categoria"
+            android:hint="@string/seleccionar_una_categoria"
             android:inputType="none"
             android:paddingVertical="0dp"
             android:popupBackground="#D0ECFD"
@@ -210,7 +210,7 @@
             android:layout_width="155dp"
             android:layout_height="49dp"
             android:backgroundTint="#D0ECFD"
-            android:hint="Talla"
+            android:hint="@string/talla"
             android:inputType="none"
             android:paddingVertical="0dp"
             android:popupBackground="#D0ECFD"
@@ -260,6 +260,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/Standar"
+        android:contentDescription="@string/todo"
+        android:importantForAccessibility="no"
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
@@ -292,7 +294,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/Standar"
         android:layout_marginTop="16dp"
-        android:text="Precio de compra"
+        android:text="@string/precio_de_compra"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
 

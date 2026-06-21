@@ -26,21 +26,21 @@ public interface ServicioAPI {
     @POST("Proveedores")
     Call<Proveedor> PostProveedor(@Body Proveedor proveedor);
 
-
     @PUT("Proveedores/{id}")
     Call<Proveedor> PutProveedor(
             @Path("id") int id,
             @Body Proveedor proveedor
     );
-
     @DELETE("Proveedores/{id}")
     Call<Void> DeleteProveedor(
             @Path("id") int id
     );
-
     // --- PRODUCTOS ---
     @GET("Producto")
     Call<List<ProductoAPI>> GetProductos();
+
+    @GET("Producto/{id}")
+    Call<ProductoAPI> GetProductoById(@Path("id") int id);
 
     @Multipart
     @POST("Producto")
@@ -58,9 +58,30 @@ public interface ServicioAPI {
             @Part("Descripcion") RequestBody Descripcion,
             @Part MultipartBody.Part Archivo // El nombre debe coincidir con la API
     );
+
+    @Multipart
+    @PUT("Producto/{id}")
+    Call<ProductoAPI> PutProducto(
+            @Path("id") int id,
+            @Part("IdProducto") RequestBody idFormulario, // ¡Esta línea es la clave!
+            @Part("Nombre") RequestBody Nombre,
+            @Part("Foto") RequestBody Foto,
+            @Part("Ruta") RequestBody Ruta,
+            @Part("SKU") RequestBody SKU,
+            @Part("IdCategoria") RequestBody IdCategoria,
+            @Part("Talla") RequestBody Talla,
+            @Part("Color") RequestBody Color,
+            @Part("Stock") RequestBody Stock,
+            @Part("PrecioCompra") RequestBody PrecioCompra,
+            @Part("PrecioVenta") RequestBody PrecioVenta,
+            @Part("Descripcion") RequestBody Descripcion,
+            @Part MultipartBody.Part Archivo
+    );
+
+    @DELETE("Producto/{id}")
+    Call<Void> DeleteProducto(@Path("id") int id);
     @POST("Ventas")
     Call<Venta> PostVenta(@Body Venta venta);
-
     @GET("Ventas")
     Call<List<Venta>> GetVentas();
     @PUT("Ventas/{id}")
@@ -68,7 +89,6 @@ public interface ServicioAPI {
             @Path("id") int id,
             @Body Venta venta
     );
-
     @DELETE("Ventas/{id}")
     Call<Void> DeleteVenta(
             @Path("id") int id

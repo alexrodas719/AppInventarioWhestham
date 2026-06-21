@@ -21,9 +21,14 @@ import java.util.List;
 
 
 import upn.edu.pe.inventariowh.AccesoDatos.DAOProducto;
-import upn.edu.pe.inventariowh.AgregarProducto;
+import upn.edu.pe.inventariowh.EditarProducto;
 import upn.edu.pe.inventariowh.Modelos.ProductoAPI;
 import upn.edu.pe.inventariowh.R;
+import upn.edu.pe.inventariowh.Red.RetrofitCliente;
+import upn.edu.pe.inventariowh.Red.ServicioAPI;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder> {
 
@@ -65,7 +70,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
         }
         // EVENTO EDITAR
         holder.btnEditar.setOnClickListener(v -> {
-            Intent intent = new Intent(context, AgregarProducto.class);
+            Intent intent = new Intent(context, EditarProducto.class);
             intent.putExtra("ID_PRODUCTO", p.getIdProducto());
             context.startActivity(intent);
         });
@@ -76,23 +81,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
                     .setTitle("Eliminar Producto")
                     .setMessage("¿Está seguro que desea eliminar " + p.getNombre() + "?")
                     .setPositiveButton("Eliminar", (dialogInterface, which) -> {
-
-                        DAOProducto dao = new DAOProducto(context);
-
-                        if (dao.Eliminar(p.getIdProducto())) {
-                            // IMPORTANTE: Obtener la posición actual de la vista en el Recycler
-                            int posicionActual = holder.getAdapterPosition();
-
-                            if (posicionActual != RecyclerView.NO_POSITION) {
-                                lista.remove(posicionActual);
-
-                                // Animación nativa de RecyclerView al eliminar
-                                notifyItemRemoved(posicionActual);
-                                notifyItemRangeChanged(posicionActual, lista.size());
-
-                                Toast.makeText(context, "Producto eliminado", Toast.LENGTH_SHORT).show();
-                            }
-                        }
+                        eliminarProductoDeAPI(p, holder.getAdapterPosition());
                     })
                     .setNegativeButton("Cancelar", null)
                     .create();
@@ -113,6 +102,30 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.Produc
     @Override
     public int getItemCount() {
         return lista.size();
+    }
+
+    private void eliminarProductoDeAPI(ProductoAPI p, int posicionActual) {
+        ServicioAPI servicio = RetrofitCliente.getCliente().create(ServicioAPI.class);
+        servicio.DeleteProducto(p.getIdProducto()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    if (posicionActual != RecyclerView.NO_POSITION) {
+                        lista.remove(posicionActual);
+                        notifyItemRemoved(posicionActual);
+                        notifyItemRangeChanged(posicionActual, lista.size());
+                        Toast.makeText(context, "Producto eliminado en el servidor", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Error al eliminar: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(context, "Falla de red: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Se encarga de hacer los findViewById una sola vez por cada ítem

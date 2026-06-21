@@ -5,20 +5,20 @@
     <item
         android:id="@+id/nav_inventario"
         android:icon="@drawable/shopping_16532589"
-        android:title="Inventario" />
+        android:title="@string/inventario" />
 
     <item
         android:id="@+id/nav_movimientos"
         android:icon="@drawable/venta_24"
-        android:title="Movimientos" />
+        android:title="@string/movimientos" />
 
     <item
         android:id="@+id/nav_proveedores"
         android:icon="@drawable/proveedor_alternativo"
-        android:title="Proveedores" />
+        android:title="@string/proveedores" />
     <item
         android:id="@+id/nav_configuracion"
         android:icon="@drawable/ajustes_24"
-        android:title="Configuracion" />
+        android:title="@string/configuracion" />
 
 </menu>

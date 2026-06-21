@@ -93,6 +93,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:contentDescription="TODO"
                     android:src="@android:drawable/ic_dialog_map" />
 
                 <TextView
@@ -124,7 +125,7 @@
                     android:id="@+id/btnEditar"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="Editar" />
+                    android:text="@string/editarproveedor" />
 
                 <Button
                     android:id="@+id/btnEliminar"

@@ -2,12 +2,9 @@ package upn.edu.pe.inventariowh.Modelos;
 
 public class DetalleVenta {
     private int idDetalleVenta;
-
     private int idVenta;
-    private int idProducto; 
-
+    private int idProducto;
     private int cantidad;
-
     private double precioUnitario;
     private double subtotal;
 
