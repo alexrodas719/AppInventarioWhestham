@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         // Actualizamos el adaptador con la nueva lista filtrada
         adapter = new ProductoAdapter(MainActivity.this, listaFiltrada);
         rvproductos.setAdapter(adapter);
-        lbContarProductos.setText(listaFiltrada.size() + " Productos");
+        lbContarProductos.setText(listaFiltrada.size());
     }
 
     @Override
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     rvproductos.setAdapter(adapter);
 
                     // 3. Actualizamos el texto
-                    lbContarProductos.setText(listaProductosServidor.size() + " Productos");
+                    lbContarProductos.setText(listaProductosServidor.size() + "");
                 } else {
                     Toast.makeText(MainActivity.this, "Error al obtener datos", Toast.LENGTH_SHORT).show();
                 }

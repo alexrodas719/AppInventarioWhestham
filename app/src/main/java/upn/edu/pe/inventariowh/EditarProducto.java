@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -31,6 +32,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import upn.edu.pe.inventariowh.AccesoDatos.DAOCategoria;
+import upn.edu.pe.inventariowh.Modelos.Categoria;
 import upn.edu.pe.inventariowh.Modelos.ProductoAPI;
 import upn.edu.pe.inventariowh.Red.RetrofitCliente;
 import upn.edu.pe.inventariowh.Red.ServicioAPI;
@@ -46,6 +49,7 @@ public class EditarProducto extends AppCompatActivity {
     TextInputEditText textInputPrecioCompra, textInputPrecioVenta, textInputDescripcion;
     Button buttonActualizar;
     ImageButton btnSalir;
+    List<Categoria> listaCategoriasBD;
 
     ActivityResultLauncher<Intent> lanzadorResultados;
     byte[] bfoto = null;
@@ -76,10 +80,10 @@ public class EditarProducto extends AppCompatActivity {
         textInputPrecioVenta = findViewById(R.id.textInputPrecioVentaEdit);
         textInputDescripcion = findViewById(R.id.textInputDescripcionEdit);
         buttonActualizar = findViewById(R.id.buttonActualizarProducto);
-        btnSalir = findViewById(R.id.btsalir);
+        btnSalir = findViewById(R.id.btsalirProv);
 
         // Adaptadores
-        autoCompleteCategoria.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, categorias));
+        cargarCategorias();
         autoCompleteTalla.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tallas));
         autoCompleteColor.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, colores));
 
@@ -97,6 +101,19 @@ public class EditarProducto extends AppCompatActivity {
         buttonActualizar.setOnClickListener(v -> ActualizarProducto());
 
         CargarDatosProducto();
+    }
+
+    private void cargarCategorias() {
+        DAOCategoria daoCat = new DAOCategoria(this);
+        listaCategoriasBD = daoCat.ListarTodos();
+
+        List<String> nombres = new ArrayList<>();
+        for (Categoria c : listaCategoriasBD) {
+            nombres.add(c.getNombre());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nombres);
+        autoCompleteCategoria.setAdapter(adapter);
     }
 
     private void CargarDatosProducto() {
@@ -128,11 +145,12 @@ public class EditarProducto extends AppCompatActivity {
         autoCompleteTalla.setText(p.getTalla(), false);
         autoCompleteColor.setText(p.getColor(), false);
         rutaImagenOriginal = p.getRuta();
-        // Asumiendo que "Ropa" es ID 1, "Calzado" es 2, "Accesorios" es 3, "Otros" es 4.
-        int idCat = p.getIdCategoria();
-        if (idCat > 0 && idCat <= categorias.length) {
-            // Restamos 1 porque los arreglos en Java empiezan en 0
-            autoCompleteCategoria.setText(categorias[idCat - 1], false);
+
+        // Seleccionar categoría por ID desde la BD
+        DAOCategoria daoCat = new DAOCategoria(this);
+        Categoria cat = daoCat.Buscar(p.getIdCategoria());
+        if (cat != null) {
+            autoCompleteCategoria.setText(cat.getNombre(), false);
         }
 
         if (rutaImagenOriginal != null && !rutaImagenOriginal.isEmpty()) {
@@ -155,13 +173,12 @@ public class EditarProducto extends AppCompatActivity {
             Toast.makeText(this, "Completa los campos obligatorios", Toast.LENGTH_SHORT).show();
             return;
         }
-        int idCategoriaSeleccionada = 1; // Valor por defecto
-        for (int i = 0; i < categorias.length; i++) {
-            if (categorias[i].equals(nombreCategoria)) {
-                idCategoriaSeleccionada = i + 1;
-                break;
-            }
-        }
+
+        int idCategoriaSeleccionada = 0;
+        DAOCategoria daoCat = new DAOCategoria(this);
+        Categoria oC = daoCat.BuscarPorNombre(nombreCategoria);
+        if (oC != null) idCategoriaSeleccionada = oC.getIdCategoria();
+
         AlertDialog oProgreso = new AlertDialog.Builder(this)
                 .setTitle("Actualizando...")
                 .setCancelable(false)

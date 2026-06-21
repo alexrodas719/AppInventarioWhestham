@@ -27,6 +27,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -43,11 +45,11 @@ import upn.edu.pe.inventariowh.Red.ServicioAPI;
 public class AgregarProducto extends AppCompatActivity {
     //variables para los componentes visuales
     ImageView imgFoto; AutoCompleteTextView autoCompleteCategoria;  AutoCompleteTextView autoCompleteTalla; AutoCompleteTextView autoCompleteColor;
-    String[] categorias = {"Ropa", "Calzado", "Accesorios", "Otros"};   String[] tallas = {"S", "M", "L", "XL", "XXL"}; String[] colores = {"Negro", "Blanco", "Rojo", "Azul", "Verde"};
+    String[] tallas = {"S", "M", "L", "XL", "XXL"}; String[] colores = {"Negro", "Blanco", "Rojo", "Azul", "Verde"};
     TextInputEditText textInputNombre;  TextInputEditText textInputStock;   TextInputEditText textInputSKU;
     TextInputEditText textInputPrecioCompra;    TextInputEditText textInputPrecioVenta; TextInputEditText textInputDescripcion;
     Button buttonGuradarProducto;
-
+    List<Categoria> listaCategoriasBD;
     ActivityResultLauncher<Intent> lanzadorResultados;
     Uri foto;
     byte[] bfoto;
@@ -64,7 +66,7 @@ public class AgregarProducto extends AppCompatActivity {
             return insets;
         });
         //vincular variables con sus componentes visuales
-        btnSalir = findViewById(R.id.btsalir);
+        btnSalir = findViewById(R.id.btsalirProv);
         btnSalir.setOnClickListener(v -> {
             Intent intent = new Intent(AgregarProducto.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -94,7 +96,7 @@ public class AgregarProducto extends AppCompatActivity {
         bfoto = null;
         foto = null;
 
-        autoCompleteCategoria.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,categorias));
+        cargarCategorias();
         autoCompleteTalla.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,tallas));
         autoCompleteColor.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,colores));
         imgFoto.setOnClickListener(
@@ -184,6 +186,19 @@ public class AgregarProducto extends AppCompatActivity {
                 Toast.makeText(AgregarProducto.this, "Falla: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void cargarCategorias() {
+        DAOCategoria daoCat = new DAOCategoria(this);
+        listaCategoriasBD = daoCat.ListarTodos();
+
+        List<String> nombres = new ArrayList<>();
+        for (Categoria c : listaCategoriasBD) {
+            nombres.add(c.getNombre());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nombres);
+        autoCompleteCategoria.setAdapter(adapter);
     }
 
     public void AddImage(){

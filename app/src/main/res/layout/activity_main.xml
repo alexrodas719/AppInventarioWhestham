@@ -38,16 +38,16 @@
         android:layout_margin="12dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:iconifiedByDefault="false"
-            app:queryHint="Buscar productos..." />
+            app:queryHint="@string/buscar_productos" />
     </com.google.android.material.card.MaterialCardView>
 
     <!-- CONTADOR -->
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="6dp"
-        android:text="0 Productos"
+        android:text="0 "
         android:textAppearance="@style/Etiqueta_normal"
         android:textColor="@color/azul"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,5 +106,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbContarProductos" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/countProductos"
+        android:textAppearance="@style/Etiqueta_normal"
+        android:textColor="@color/azul"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/lbContarProductos"
+        app:layout_constraintTop_toBottomOf="@+id/searchCard" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

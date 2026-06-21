@@ -1,14 +1,13 @@
 <resources>
     <string name="app_name" translatable="false">InventarioWH</string>
-    <string name="btn_retroceder" translatable="false">Retroceder</string>
-    <string name="hint_buscar" translatable="false">Buscar Productos&#8230;</string>
-    <string name="boton_Agregar" translatable="false">Agregar producto</string>
-    <string name="hint_nombre_producto" translatable="false">Nombre del producto</string>
-    <string name="hint_categoria_producto" translatable="false">Categoría</string>
-    <string name="btn_guardar" translatable="false">Guardar Producto</string>
-    <string name="productos">0 Productos</string>
-    <string name="NombreTienda">WESTHAM</string>
-    <string name="api_key">AIzaSyAiohZHfyXkUn3DjxugSJM7pmwXfSW2S6I</string>
+    <string name="btn_retroceder" >Retroceder</string>
+    <string name="hint_buscar">Buscar Productos&#8230;</string>
+    <string name="boton_Agregar">Agregar producto</string>
+    <string name="hint_nombre_producto" >Nombre del producto</string>
+    <string name="hint_categoria_producto">Categoría</string>
+    <string name="btn_guardar">Guardar Producto</string>
+    <string name="NombreTienda" translatable="false">WESTHAM</string>
+    <string name="api_key" translatable="false">AIzaSyAiohZHfyXkUn3DjxugSJM7pmwXfSW2S6I</string>
     <string name="lista_proveedores">Lista de Proveedores</string>
     <string name="Titulo_movimientos">MOVIMIENTOS</string>
     <string name="St_ganancia">GANANCIA</string>
@@ -90,4 +89,6 @@
     <string name="inventario">Inventario</string>
     <string name="movimientos">Movimientos</string>
     <string name="proveedores">Proveedores</string>
+    <string name="countProductos">Productos</string>
+    <string name="buscar_productos">Buscar Producto</string>
 </resources>

@@ -1,6 +1,10 @@
 package upn.edu.pe.inventariowh;
 
 import androidx.appcompat.app.AlertDialog;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -45,7 +49,9 @@ public class AddProveedor extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap oMapa;
     private FusedLocationProviderClient LeerGPSCliente;
     Button btnUbicacionActual;
+    ImageButton salir;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +66,12 @@ public class AddProveedor extends AppCompatActivity implements OnMapReadyCallbac
         etLongitud = findViewById(R.id.etLongitud);
         fabSave = findViewById(R.id.fabSaveProveedor);
         btnUbicacionActual = findViewById(R.id.btnUbicacion);
+        salir = findViewById(R.id.btsalirProv);
+
+        salir.setOnClickListener(v -> {Intent intent = new Intent(AddProveedor.this, ProveedorActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();});
 
         //  ubicación del usuario
         LeerGPSCliente = LocationServices.getFusedLocationProviderClient(this);

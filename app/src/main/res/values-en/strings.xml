@@ -1,0 +1,98 @@
+<resources>
+    <string name="btn_retroceder">Back</string>
+    <string name="hint_buscar">Search Products&#8230;</string>
+    <string name="boton_Agregar">Add Product</string>
+    <string name="hint_nombre_producto">Product Name</string>
+    <string name="hint_categoria_producto">Category</string>
+    <string name="btn_guardar">Save Product</string>
+    <string name="todo">ALL</string>
+    <string name="buscar">Search</string>
+    <string name="total">TOTAL:</string>
+
+    <string name="configuracion">Configuration</string>
+    <string name="inventario">Inventory</string>
+    <string name="movimientos">Movements</string>
+    <string name="proveedores">Suppliers</string>
+    <string name="ajustes">Settings</string>
+
+    <string name="lista_proveedores">Suppliers List</string>
+    <string name="direccionPV">Address</string>
+    <string name="rucPV">Tax ID / RUC</string>
+    <string name="raz_nom_proveedor">Business Name or Supplier Name</string>
+    <string name="telefonoPV">Phone</string>
+    <string name="ubicacion_actualPV">Current Location</string>
+    <string name="latitudPV">Latitude</string>
+    <string name="longituPV">Longitude</string>
+    <string name="guardar_proveedorPV">Save Supplier</string>
+    <string name="registrar_proveedorPV">Register Supplier</string>
+    <string name="bt_agregar_proveedor">Add Supplier</string>
+
+    <string name="Titulo_movimientos">MOVEMENTS</string>
+    <string name="St_ganancia">PROFIT</string>
+    <string name="St_hoy">TODAY</string>
+    <string name="St_mes">MONTH</string>
+    <string name="St_total">TOTAL</string>
+
+    <string name="seleccionar_una_categoria">Select a category</string>
+    <string name="color">Color</string>
+    <string name="talla">Size</string>
+    <string name="descripci_n">Description</string>
+    <string name="nombre">Name..</string>
+    <string name="precio_de_compra">Purchase Price</string>
+    <string name="nombre_del_producto">Product Name</string>
+    <string name="categoria">Category</string>
+    <string name="stock">Stock</string>
+    <string name="precio_de_venta">Sale Price</string>
+    <string name="sku">SKU</string>
+    <string name="bt_agregar_producto">Add Product</string>
+    <string name="agregar_productoBtMain">ADD PRODUCT</string>
+
+    <string name="seleccionar_una_categoriaEdit">Select a category</string>
+    <string name="coloredit">Color</string>
+    <string name="tallaedit">Size</string>
+    <string name="actualizar_producto">UPDATE PRODUCT</string>
+    <string name="descripci_nedit">Description</string>
+    <string name="nombreedit">Name..</string>
+    <string name="precio_de_compraedit">Purchase Price</string>
+    <string name="nombre_del_productoedit">Product Name</string>
+    <string name="stockedit">Stock</string>
+    <string name="categoriaedit">Category</string>
+    <string name="precio_de_ventaedit">Sale Price</string>
+    <string name="skuedit">SKU</string>
+    <string name="bteditar_producto">Edit Product</string>
+    <string name="direcci_nedit">Address</string>
+    <string name="rucedit">Tax ID / RUC</string>
+    <string name="raz_n_social_o_nombre_del_proveedoredit">Business Name or Supplier Name</string>
+    <string name="tel_fonoedit">Phone</string>
+    <string name="ubicacion_actualbtEdit">Current Location</string>
+    <string name="latitudedit">Latitude</string>
+    <string name="longitudedit">Longitude</string>
+    <string name="actualizar_proveedoredit">Update Supplier</string>
+    <string name="tituloeditar_proveedoredit">Edit Supplier</string>
+    <string name="editarproveedor">Edit</string>
+
+    <string name="bt_nueva_venta">NEW SALE</string>
+    <string name="agregar_al_carrito">ADD TO CART</string>
+    <string name="registrar_venta">REGISTER SALE</string>
+    <string name="digita_la_cantidad">Enter Amount</string>
+    <string name="precio">Price:</string>
+    <string name="producto">Product:</string>
+    <string name="stockVenta">Stock:</string>
+    <string name="realizar_venta">Make Sale</string>
+    <string name="nombre_o_sku">Name or SKU</string>
+    <string name="productos_0ItemVenta">Products: 0</string>
+
+    <string name="gesti_n_de_cat_logo">Catalog Management</string>
+    <string name="idioma">Language</string>
+    <string name="preferencias">Preferences</string>
+    <string name="iniciar_sesi_n">Log In</string>
+    <string name="cerrar_sesi_n">Log Out</string>
+    <string name="editar_categor_as">Edit Categories</string>
+    <string name="editar_colores">Edit Colors</string>
+    <string name="editar_tallas">Edit Sizes</string>
+    <string name="modo_oscuro">Dark Mode</string>
+    <string name="espa_ol">Spanish</string>
+    <string name="notificaciones">Notifications</string>
+    <string name="countProductos">Products</string>
+    <string name="buscar_productos">Search Product</string>
+</resources>
